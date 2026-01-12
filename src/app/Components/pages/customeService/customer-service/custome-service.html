@@ -2,75 +2,91 @@
   <section class="section banner-500">
     <div class="box-cover-image wow fadeInUp"></div>
     <div class="box-banner-info wow bounceIn">
-      <p class="overline-t2-medium text-uppercase primary-navy mb-10">CUSTOMER SERVICE</p>
+      <p class="overline-t2-medium text-uppercase primary-navy mb-10">
+        {{ 'customer_service.banner.overline' | translate }}
+      </p>
       <h2 class="color-primary-dark mb-30">
-        Any questions?<br class="d-none d-lg-block" />We’re here to help
+        {{ 'customer_service.banner.title_line1' | translate }}
+        <br class="d-none d-lg-block" />
+        {{ 'customer_service.banner.title_line2' | translate }}
       </h2>
     </div>
   </section>
+
   <section class="section block-content-custome">
     <div class="container">
       <div class="row">
         <div class="col-lg-3 wow bounceIn">
           <ul class="menu-left">
-            <li><a class="active" href="#">Privacy Policy</a></li>
-            <li><a href="#">Shipping & Returns</a></li>
-            <li><a href="#">Financing</a></li>
-            <li><a href="#">Cookie Policy</a></li>
-            <li><a href="#">Terms & Conditions</a></li>
-            <li><a href="#">Coupon & Promotions</a></li>
+            <li>
+              <a class="active" href="#">
+                {{ 'customer_service.menu.privacy' | translate }}
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                {{ 'customer_service.menu.shipping_returns' | translate }}
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                {{ 'customer_service.menu.financing' | translate }}
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                {{ 'customer_service.menu.cookies' | translate }}
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                {{ 'customer_service.menu.terms' | translate }}
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                {{ 'customer_service.menu.coupons' | translate }}
+              </a>
+            </li>
           </ul>
         </div>
+
         <div class="col-lg-9 wow bounceIn">
           <div class="content-detail">
-            <h3>Privacy Policy</h3>
-            <h5>Information Collection and Use</h5>
+            <h3>{{ 'customer_service.content.privacy_title' | translate }}</h3>
+
+            <h5>{{ 'customer_service.content.section_1_title' | translate }}</h5>
             <p class="body-p2 neutral-medium-dark">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas cursus quam ut
-              aliquam porttitor. Fusce finibus, urna in auctor placerat, libero sapien fringilla ex,
-              id gravida libero felis quis risus. Nam eu felis malesuada, dignissim metus pulvinar,
-              semper velit. Mauris orci justo, sodales ut ultrices ac, vulputate nec tortor. Etiam
-              fermentum justo at sem lacinia elementum. Fusce a mauris nunc. In eu pharetra justo.
-              Morbi auctor at nunc sed ullamcorper. Nunc pellentesque, diam hendrerit eleifend
-              pellentesque, lorem quam consectetur quam, eu pharetra turpis lacus in tortor. Morbi
-              facilisis suscipit quam. Maecenas fermentum, urna sed tincidunt dapibus, magna turpis
-              malesuada felis, in imperdiet ipsum ipsum id arcu. Donec vel pretium est.
+              {{ 'customer_service.content.section_1_text' | translate }}
             </p>
-            <h5>Personally Identifiable Information</h5>
+
+            <h5>{{ 'customer_service.content.section_2_title' | translate }}</h5>
             <p>
-              Fusce a mauris nunc. In eu pharetra justo. Morbi auctor at nunc sed ullamcorper. Nunc
-              pellentesque, diam hendrerit eleifend pellentesque, lorem quam consectetur quam, eu
-              pharetra turpis lacus in tortor. Morbi facilisis suscipit quam. Maecenas fermentum,
-              urna sed tincidunt dapibus, magna turpis malesuada felis, in imperdiet ipsum ipsum id
-              arcu. Donec vel pretium est.
+              {{ 'customer_service.content.section_2_text' | translate }}
             </p>
-            <h5>Non-Personally Identifiable Information</h5>
+
+            <h5>{{ 'customer_service.content.section_3_title' | translate }}</h5>
             <p>
-              We automatically receive and collect Non-personally Identifiable Information on our
-              server logs from your browser, including your IP address, the Uniform Resource Locator
-              ("URL") that you just came from, which URL you next go to, browser type, browser
-              language, date and time of your query, Rebag cookie information, and the pages you
-              request. This information is compiled and analyzed on both a personal and an
-              aggregated basis. We may use third-party analytics services to collect, monitor and
-              analyze the information collected as described above.
+              {{ 'customer_service.content.section_3_text' | translate }}
             </p>
-            <h5>Use of Information</h5>
+
+            <h5>{{ 'customer_service.content.section_4_title' | translate }}</h5>
             <p>
-              We automatically receive and collect Non-personally Identifiable Information on our
-              server logs from your browser, including your IP address, the Uniform Resource Locator
-              ("URL") that you just came from, which URL you next go to, browser type, browser
-              language, date and time of your query, Rebag cookie information, and the pages you
-              request. This information is compiled and analyzed on both a personal and an
-              aggregated basis. We may use third-party analytics services to collect, monitor and
-              analyze the information collected as described above.
+              {{ 'customer_service.content.section_4_text' | translate }}
             </p>
+
             <p class="text-17-medium mt-60">
-              Don't see what you're looking for? All you have to do is ask <br />— we'll do our best
-              to track down your request.
+              {{ 'customer_service.content.help_text' | translate }}
             </p>
-            <div class="mt-25"><a class="btn btn-black" href="#">Contact Us</a></div>
+
+            <div class="mt-25">
+              <a class="btn btn-black" href="#">
+                {{ 'customer_service.content.contact_button' | translate }}
+              </a>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>

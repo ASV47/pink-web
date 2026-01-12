@@ -2,214 +2,143 @@
   <section class="section banner-500">
     <div class="box-cover-image wow fadeInUp"></div>
     <div class="box-banner-info wow bounceIn">
-      <p class="overline-t2-medium text-uppercase primary-navy mb-10">FAQ’S</p>
+      <p class="overline-t2-medium text-uppercase primary-navy mb-10">
+        {{ 'faq.banner.overline' | translate }}
+      </p>
       <h2 class="color-primary-dark mb-30">
-        Any questions?<br class="d-none d-lg-block" />We’re here to help
+        {{ 'faq.banner.title_line1' | translate }}<br class="d-none d-lg-block" />
+        {{ 'faq.banner.title_line2' | translate }}
       </h2>
     </div>
   </section>
+
   <section class="section block-content-faq">
     <div class="container">
       <div class="container-faq">
-        <h4 class="mb-20">Delivery Information</h4>
+
+        <h4 class="mb-20">{{ 'faq.sections.delivery.title' | translate }}</h4>
         <div class="accordion wow fadeInUp mb-60" id="accordionFAQ">
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingOne">
-              <button
-                class="accordion-button text-heading-5"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
-                Shipping destinations
+              <button class="accordion-button text-heading-5" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{ 'faq.sections.delivery.q1.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse show"
-              id="collapseOne"
-              aria-labelledby="headingOne"
-              data-bs-parent="#accordionFAQ"
-            >
+            <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne"
+              data-bs-parent="#accordionFAQ">
               <div class="accordion-body">
-                For now we ship to the following countries: Austria, Belgium, Czech Republic,
-                Lithuania, Luxembourg, Latvia, Slovakia, Hungary, Bulgaria, Romania, Slovenia,
-                Finland, Denmark, Estonia, Netherlands, Germany, France, Great Britain, Croatia,
-                Ireland, Sweden, Italy, Greece, Spain, Portugal and Poland.
+                {{ 'faq.sections.delivery.q1.answer' | translate }}
               </div>
             </div>
           </div>
+
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingTwo">
-              <button
-                class="accordion-button text-heading-5 collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                Shipping times
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                {{ 'faq.sections.delivery.q2.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseTwo"
-              aria-labelledby="headingTwo"
-              data-bs-parent="#accordionFAQ"
-            >
+            <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo"
+              data-bs-parent="#accordionFAQ">
               <div class="accordion-body">
-                Sad ipscing elitrsed diamnonu myeir mod, sadipscing elitrsed dia morem ipsum dolor
-                situamet consetetur loutrytru hury. Lorem ipsum dolor sitametco nsetetur sa
-                cingelitrse diamonu eirmoid, sad ipscing elitrstrud diamtre ute riyutroui tout.
+                {{ 'faq.sections.delivery.q2.answer' | translate }}
               </div>
             </div>
           </div>
+
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingThree">
-              <button
-                class="accordion-button text-heading-5 collapsed text-heading-5 type="
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseThree"
-                aria-expanded="false"
-                aria-controls="collapseThree"
-              >
-                Tracking your parcel
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                {{ 'faq.sections.delivery.q3.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseThree"
-              aria-labelledby="headingThree"
-              data-bs-parent="#accordionFAQ"
-            >
+            <div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree"
+              data-bs-parent="#accordionFAQ">
               <div class="accordion-body">
-                Sad ipscing elitrsed diamnonu myeir mod, sadipscing elitrsed dia morem ipsum dolor
-                situamet consetetur loutrytru hury. Lorem ipsum dolor sitametco nsetetur sa
-                cingelitrse diamonu eirmoid, sad ipscing elitrstrud diamtre ute riyutroui tout.
+                {{ 'faq.sections.delivery.q3.answer' | translate }}
               </div>
             </div>
           </div>
         </div>
-        <h4 class="mb-20">Returns & Refunds</h4>
+
+        <h4 class="mb-20">{{ 'faq.sections.returns.title' | translate }}</h4>
         <div class="accordion wow fadeInUp mb-60" id="accordionFAQ2">
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingOne2">
-              <button
-                class="accordion-button text-heading-5 collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne2"
-                aria-expanded="true"
-                aria-controls="collapseOne2"
-              >
-                How can I return my purchase?
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseOne2" aria-expanded="true" aria-controls="collapseOne2">
+                {{ 'faq.sections.returns.q1.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseOne2"
-              aria-labelledby="headingOne2"
-              data-bs-parent="#accordionFAQ2"
-            >
+            <div class="accordion-collapse collapse" id="collapseOne2" aria-labelledby="headingOne2"
+              data-bs-parent="#accordionFAQ2">
               <div class="accordion-body">
-                For now we ship to the following countries: Austria, Belgium, Czech Republic,
-                Lithuania, Luxembourg, Latvia, Slovakia, Hungary, Bulgaria, Romania, Slovenia,
-                Finland, Denmark, Estonia, Netherlands, Germany, France, Great Britain, Croatia,
-                Ireland, Sweden, Italy, Greece, Spain, Portugal and Poland.
+                {{ 'faq.sections.returns.q1.answer' | translate }}
               </div>
             </div>
           </div>
+
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingTwo2">
-              <button
-                class="accordion-button text-heading-5 collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo2"
-                aria-expanded="false"
-                aria-controls="collapseTwo2"
-              >
-                Can I cancel my order?
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2">
+                {{ 'faq.sections.returns.q2.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseTwo2"
-              aria-labelledby="headingTwo2"
-              data-bs-parent="#accordionFAQ2"
-            >
+            <div class="accordion-collapse collapse" id="collapseTwo2" aria-labelledby="headingTwo2"
+              data-bs-parent="#accordionFAQ2">
               <div class="accordion-body">
-                Sad ipscing elitrsed diamnonu myeir mod, sadipscing elitrsed dia morem ipsum dolor
-                situamet consetetur loutrytru hury. Lorem ipsum dolor sitametco nsetetur sa
-                cingelitrse diamonu eirmoid, sad ipscing elitrstrud diamtre ute riyutroui tout.
+                {{ 'faq.sections.returns.q2.answer' | translate }}
               </div>
             </div>
           </div>
         </div>
-        <h4 class="mb-20">How to choose an urn</h4>
+
+        <h4 class="mb-20">{{ 'faq.sections.guide.title' | translate }}</h4>
         <div class="accordion wow fadeInUp mb-60" id="accordionFAQ3">
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingOne3">
-              <button
-                class="accordion-button text-heading-5 collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne3"
-                aria-expanded="true"
-                aria-controls="collapseOne3"
-              >
-                How can I return my purchase?
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseOne3" aria-expanded="true" aria-controls="collapseOne3">
+                {{ 'faq.sections.guide.q1.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseOne3"
-              aria-labelledby="headingOne3"
-              data-bs-parent="#accordionFAQ3"
-            >
+            <div class="accordion-collapse collapse" id="collapseOne3" aria-labelledby="headingOne3"
+              data-bs-parent="#accordionFAQ3">
               <div class="accordion-body">
-                For now we ship to the following countries: Austria, Belgium, Czech Republic,
-                Lithuania, Luxembourg, Latvia, Slovakia, Hungary, Bulgaria, Romania, Slovenia,
-                Finland, Denmark, Estonia, Netherlands, Germany, France, Great Britain, Croatia,
-                Ireland, Sweden, Italy, Greece, Spain, Portugal and Poland.
+                {{ 'faq.sections.guide.q1.answer' | translate }}
               </div>
             </div>
           </div>
+
           <div class="accordion-item">
             <h5 class="accordion-header" id="headingTwo3">
-              <button
-                class="accordion-button text-heading-5 collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo3"
-                aria-expanded="false"
-                aria-controls="collapseTwo3"
-              >
-                Can I cancel my order?
+              <button class="accordion-button text-heading-5 collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo3" aria-expanded="false" aria-controls="collapseTwo3">
+                {{ 'faq.sections.guide.q2.question' | translate }}
               </button>
             </h5>
-            <div
-              class="accordion-collapse collapse"
-              id="collapseTwo3"
-              aria-labelledby="headingTwo3"
-              data-bs-parent="#accordionFAQ3"
-            >
+            <div class="accordion-collapse collapse" id="collapseTwo3" aria-labelledby="headingTwo3"
+              data-bs-parent="#accordionFAQ3">
               <div class="accordion-body">
-                Sad ipscing elitrsed diamnonu myeir mod, sadipscing elitrsed dia morem ipsum dolor
-                situamet consetetur loutrytru hury. Lorem ipsum dolor sitametco nsetetur sa
-                cingelitrse diamonu eirmoid, sad ipscing elitrstrud diamtre ute riyutroui tout.
+                {{ 'faq.sections.guide.q2.answer' | translate }}
               </div>
             </div>
           </div>
         </div>
+
         <div class="mt-10 text-center">
           <p class="text-17-medium mb-25 neutral-medium-dark">
-            Have a question not covered in the FAQ?
+            {{ 'faq.footer.question' | translate }}
           </p>
-          <a class="btn btn-black" href="#">Contact Us</a>
+          <a class="btn btn-black" href="#">
+            {{ 'faq.footer.contact' | translate }}
+          </a>
         </div>
+
       </div>
     </div>
   </section>

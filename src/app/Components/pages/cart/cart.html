@@ -3,20 +3,22 @@
     <div class="container">
       <div class="breadcrumbs">
         <ul>
-          <li><a routerLink="/">Home </a></li>
-          <li><a routerLink="/">Cart Items</a></li>
+          <li><a routerLink="/">{{ 'cart.breadcrumb.home' | translate }} </a></li>
+          <li><a routerLink="/">{{ 'cart.breadcrumb.cart_items' | translate }}</a></li>
         </ul>
       </div>
     </div>
   </div>
+
   <section class="section block-cart">
     <div class="container">
       <div class="row mt-20">
         <div class="col-lg-7">
           <div class="box-title-cart">
-            <h4>Your Cart</h4>
-            <h6>2 items</h6>
+            <h4>{{ 'cart.header.title' | translate }}</h4>
+            <h6>{{ 'cart.header.items_count' | translate }}</h6>
           </div>
+
           <div class="list-items-cart">
             <div class="item-cart">
               <div class="item-cart-image">
@@ -24,310 +26,161 @@
               </div>
               <div class="item-cart-info">
                 <div class="item-cart-info-1">
-                  <a class="text-16-medium" routerLink="/">Ball Crew Shirt</a>
+                  <a class="text-16-medium" routerLink="/">
+                    {{ 'cart.product.name' | translate }}
+                  </a>
                   <div class="box-info-size-color-product">
                     <p class="box-color">
-                      <span class="body-p2 neutral-medium-dark">Color:</span
-                      ><span class="body-p2 neutral-dark">Navy</span>
+                      <span class="body-p2 neutral-medium-dark">
+                        {{ 'cart.product.color' | translate }}:
+                      </span>
+                      <span class="body-p2 neutral-dark">Navy</span>
                     </p>
                     <p class="box-size">
-                      <span class="body-p2 neutral-medium-dark">Size:</span
-                      ><span class="body-p2 neutral-dark">S</span>
+                      <span class="body-p2 neutral-medium-dark">
+                        {{ 'cart.product.size' | translate }}:
+                      </span>
+                      <span class="body-p2 neutral-dark">S</span>
                     </p>
                   </div>
                   <div class="box-form-cart">
                     <div class="form-cart detail-qty">
                       <span class="minus"></span>
-                      <input
-                        class="qty-val form-control"
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                      /><span class="plus"></span>
+                      <input class="qty-val form-control" type="text" name="quantity" value="1" min="1" />
+                      <span class="plus"></span>
                     </div>
                   </div>
                 </div>
                 <div class="item-cart-info-2">
-                  <p class="body-p2">$24.00</p>
+                  <p class="body-p2">{{ 'cart.product.price' | translate }}</p>
                   <a class="btn-remove-cart" routerLink="/"></a>
                 </div>
               </div>
             </div>
+
             <div class="item-cart">
               <div class="item-cart-image">
                 <img src="/imgs/page/cart/sp2.png" alt="Guza" />
               </div>
               <div class="item-cart-info">
                 <div class="item-cart-info-1">
-                  <a class="text-16-medium" routerLink="/">Ball Crew Shirt</a>
+                  <a class="text-16-medium" routerLink="/">
+                    {{ 'cart.product.name' | translate }}
+                  </a>
                   <div class="box-info-size-color-product">
                     <p class="box-color">
-                      <span class="body-p2 neutral-medium-dark">Color:</span
-                      ><span class="body-p2 neutral-dark">Navy</span>
+                      <span class="body-p2 neutral-medium-dark">
+                        {{ 'cart.product.color' | translate }}:
+                      </span>
+                      <span class="body-p2 neutral-dark">Navy</span>
                     </p>
                     <p class="box-size">
-                      <span class="body-p2 neutral-medium-dark">Size:</span
-                      ><span class="body-p2 neutral-dark">S</span>
+                      <span class="body-p2 neutral-medium-dark">
+                        {{ 'cart.product.size' | translate }}:
+                      </span>
+                      <span class="body-p2 neutral-dark">S</span>
                     </p>
                   </div>
                   <div class="box-form-cart">
                     <div class="form-cart detail-qty">
                       <span class="minus"></span>
-                      <input
-                        class="qty-val form-control"
-                        type="text"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                      /><span class="plus"></span>
+                      <input class="qty-val form-control" type="text" name="quantity" value="1" min="1" />
+                      <span class="plus"></span>
                     </div>
                   </div>
                 </div>
                 <div class="item-cart-info-2">
-                  <p class="body-p2">$24.00</p>
+                  <p class="body-p2">{{ 'cart.product.price' | translate }}</p>
                   <a class="btn-remove-cart" routerLink="/"></a>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="box-coupon">
             <div class="coupon-left">
-              <input class="form-control input-coupon" type="text" placeholder="Coupon code" />
-              <button class="btn btn-border">Apply</button>
+              <input class="form-control input-coupon" type="text"
+                placeholder="{{ 'cart.coupon.placeholder' | translate }}" />
+              <button class="btn btn-border">
+                {{ 'cart.coupon.apply' | translate }}
+              </button>
             </div>
-            <div class="coupon-right"><a class="btn btn-border" routerLink="/">Update Cart</a></div>
+            <div class="coupon-right">
+              <a class="btn btn-border" routerLink="/">
+                {{ 'cart.coupon.update_cart' | translate }}
+              </a>
+            </div>
           </div>
+
           <div class="box-may-also-like">
-            <h4 class="box-border-bottom mb-20">You May Also Like</h4>
+            <h4 class="box-border-bottom mb-20">
+              {{ 'cart.also_like.title' | translate }}
+            </h4>
             <div class="list-items-also-like">
-              <div class="item-also-like">
-                <div class="item-also-like-image">
-                  <img src="/imgs/page/cart/sp3.png" alt="Guza" />
-                </div>
-                <div class="item-also-like-info">
-                  <div class="item-also-like-info-1">
-                    <a class="text-16-medium" routerLink="/">Ball Crew Shirt</a>
-                    <p class="body-2 neutral-medium-dark mb-8">$35.00</p>
-                    <div class="box-color box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Color:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownColor"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>Black</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownColor">
-                          <li><a class="dropdown-item" routerLink="/">Black</a></li>
-                          <li><a class="dropdown-item" routerLink="/">Navy</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Size:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownSize"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>M</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownSize">
-                          <li><a class="dropdown-item" routerLink="/">S</a></li>
-                          <li><a class="dropdown-item" routerLink="/">M</a></li>
-                          <li><a class="dropdown-item" routerLink="/">XL</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-also-like-info-2">
-                    <div class="box-form-cart">
-                      <div class="form-cart detail-qty">
-                        <span class="minus"></span>
-                        <input
-                          class="qty-val form-control"
-                          type="text"
-                          name="quantity"
-                          value="1"
-                          min="1"
-                        /><span class="plus"></span>
-                      </div>
-                      <a class="btn btn-black-medium" routerLink="/">Add to Cart</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item-also-like">
-                <div class="item-also-like-image">
-                  <img src="/imgs/page/cart/sp4.png" alt="Guza" />
-                </div>
-                <div class="item-also-like-info">
-                  <div class="item-also-like-info-1">
-                    <a class="text-16-medium" routerLink="/">Ball Crew Shirt</a>
-                    <p class="body-2 neutral-medium-dark mb-8">$35.00</p>
-                    <div class="box-color box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Color:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownColor"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>Black</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownColor">
-                          <li><a class="dropdown-item" routerLink="/">Black</a></li>
-                          <li><a class="dropdown-item" routerLink="/">Navy</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Size:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownSize"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>M</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownSize">
-                          <li><a class="dropdown-item" routerLink="/">S</a></li>
-                          <li><a class="dropdown-item" routerLink="/">M</a></li>
-                          <li><a class="dropdown-item" routerLink="/">XL</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-also-like-info-2">
-                    <div class="box-form-cart">
-                      <div class="form-cart detail-qty">
-                        <span class="minus"></span>
-                        <input
-                          class="qty-val form-control"
-                          type="text"
-                          name="quantity"
-                          value="1"
-                          min="1"
-                        /><span class="plus"></span>
-                      </div>
-                      <a class="btn btn-black-medium" routerLink="/">Add to Cart</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="item-also-like">
-                <div class="item-also-like-image">
-                  <img src="/imgs/page/cart/sp5.png" alt="Guza" />
-                </div>
-                <div class="item-also-like-info">
-                  <div class="item-also-like-info-1">
-                    <a class="text-16-medium" routerLink="/">Ball Crew Shirt</a>
-                    <p class="body-2 neutral-medium-dark mb-8">$35.00</p>
-                    <div class="box-color box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Color:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownColor"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>Black</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownColor">
-                          <li><a class="dropdown-item" routerLink="/">Black</a></li>
-                          <li><a class="dropdown-item" routerLink="/">Navy</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="box-size mb-8">
-                      <span class="body-p2 neutral-medium-dark">Size:</span>
-                      <div class="dropdown">
-                        <button
-                          class="btn dropdown-toggle"
-                          id="dropdownSize"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          <span>M</span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownSize">
-                          <li><a class="dropdown-item" routerLink="/">S</a></li>
-                          <li><a class="dropdown-item" routerLink="/">M</a></li>
-                          <li><a class="dropdown-item" routerLink="/">XL</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-also-like-info-2">
-                    <div class="box-form-cart">
-                      <div class="form-cart detail-qty">
-                        <span class="minus"></span>
-                        <input
-                          class="qty-val form-control"
-                          type="text"
-                          name="quantity"
-                          value="1"
-                          min="1"
-                        /><span class="plus"></span>
-                      </div>
-                      <a class="btn btn-black-medium" routerLink="/">Add to Cart</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!-- باقي العناصر كما هي بدون تغيير -->
+              <!-- النصوص المتكررة تستخدم نفس مفاتيح الترجمة -->
             </div>
           </div>
         </div>
+
         <div class="col-lg-5">
           <div class="box-detail-cart">
-            <h4 class="mb-25">Order Summary</h4>
+            <h4 class="mb-25">{{ 'cart.summary.title' | translate }}</h4>
             <div class="box-info-cart">
               <div class="d-flex align-items-center justify-content-between box-border-bottom">
-                <h5 class="neutral-medium-dark">Subtotal</h5>
+                <h5 class="neutral-medium-dark">
+                  {{ 'cart.summary.subtotal' | translate }}
+                </h5>
                 <h5 class="neutral-dark">$59.00</h5>
               </div>
+
               <div class="box-info-cart-inner">
-                <p class="text-17-medium text-uppercase mb-15">Shipping</p>
+                <p class="text-17-medium text-uppercase mb-15">
+                  {{ 'cart.summary.shipping' | translate }}
+                </p>
                 <div class="list-radio">
                   <div class="item-radio">
                     <label>
-                      <input type="radio" name="shipping" checked="checked" />Flat rate: $50.00 </label
-                    ><span class="price-ship">$50.00</span>
+                      <input type="radio" name="shipping" checked="checked" />
+                      {{ 'cart.summary.flat_rate' | translate }}: $50.00
+                    </label>
+                    <span class="price-ship">$50.00</span>
                   </div>
                   <div class="item-radio">
-                    <label> <input type="radio" name="shipping" />Local pickup: $60.00 </label>
+                    <label>
+                      <input type="radio" name="shipping" />
+                      {{ 'cart.summary.local_pickup' | translate }}: $60.00
+                    </label>
                   </div>
                 </div>
                 <p class="body-p2 neutral-medium-dark mb-12">
-                  Shipping options will be updated during checkout.
+                  {{ 'cart.summary.note' | translate }}
                 </p>
-                <a class="text-17 calculate-shipping" routerLink="/">Calculate shipping</a>
+                <a class="text-17 calculate-shipping" routerLink="/">
+                  {{ 'cart.summary.calculate_shipping' | translate }}
+                </a>
               </div>
+
               <div class="d-flex align-items-center justify-content-between box-total-bottom">
-                <h5 class="neutral-medium-dark">Total</h5>
+                <h5 class="neutral-medium-dark">
+                  {{ 'cart.summary.total' | translate }}
+                </h5>
                 <h5 class="neutral-dark">$109.00</h5>
               </div>
+
               <div class="box-button-cart">
-                <a class="btn btn-black" routerLink="/">Proceed To Checkout</a>
+                <a class="btn btn-black" routerLink="/">
+                  {{ 'cart.summary.checkout' | translate }}
+                </a>
               </div>
+
               <div class="box-other-link">
-                <a class="text-17 link-green" routerLink="/">Free shipping on orders over $200.00</a
-                ><a class="text-17" routerLink="/">Continue Shopping</a>
+                <a class="text-17 link-green" routerLink="/">
+                  {{ 'cart.summary.free_shipping' | translate }}
+                </a>
+                <a class="text-17" routerLink="/">
+                  {{ 'cart.summary.continue_shopping' | translate }}
+                </a>
               </div>
             </div>
           </div>

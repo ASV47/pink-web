@@ -3,227 +3,220 @@
     <div class="container">
       <div class="breadcrumbs">
         <ul>
-          <li><a routerLink="/">Home </a></li>
-          <li><a routerLink="/">Checkout</a></li>
+          <li><a routerLink="/">{{ 'checkout.breadcrumb.home' | translate }} </a></li>
+          <li><a routerLink="/">{{ 'checkout.breadcrumb.checkout' | translate }}</a></li>
         </ul>
       </div>
     </div>
   </div>
+
   <section class="section block-cart">
     <div class="container mb-100 mt-60">
       <form action="#">
         <div class="row mt-20">
           <div class="col-lg-6">
             <div class="box-customer-login">
-              Returning customer? <a routerLink="/">Click here to login</a>
+              {{ 'checkout.login_notice.text' | translate }}
+              <a routerLink="/">{{ 'checkout.login_notice.action' | translate }}</a>
             </div>
             <div class="box-gift-coupon">
-              Have a coupon? <a routerLink="/">Click here to enter your code</a>
+              {{ 'checkout.coupon_notice.text' | translate }}
+              <a routerLink="/">{{ 'checkout.coupon_notice.action' | translate }}</a>
             </div>
+
             <div class="box-title-checkout mt-30">
-              <h4 class="mb-25">Billing Details</h4>
-              <h5 class="mb-20">Contact information</h5>
+              <h4 class="mb-25">{{ 'checkout.billing.title' | translate }}</h4>
+              <h5 class="mb-20">{{ 'checkout.billing.contact' | translate }}</h5>
             </div>
+
             <div class="box-form-checkout form-comment">
               <div class="form-group">
-                <label class="form-label" for="email">Email Address *</label>
+                <label class="form-label" for="email">
+                  {{ 'checkout.billing.email' | translate }} *
+                </label>
                 <input class="form-control" id="email" type="text" />
                 <label class="mt-12">
-                  <input class="cb-left" type="checkbox" />Email me with news and offers
+                  <input class="cb-left" type="checkbox" />
+                  {{ 'checkout.billing.email_news' | translate }}
                 </label>
               </div>
-              <h4 class="mt-32 mb-25">Shipping address</h4>
+
+              <h4 class="mt-32 mb-25">
+                {{ 'checkout.billing.shipping_address' | translate }}
+              </h4>
+
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-label" for="firstname">First Name *</label>
+                    <label class="form-label" for="firstname">
+                      {{ 'checkout.billing.first_name' | translate }} *
+                    </label>
                     <input class="form-control" id="firstname" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-label" for="lastname">Last Name *</label>
+                    <label class="form-label" for="lastname">
+                      {{ 'checkout.billing.last_name' | translate }} *
+                    </label>
                     <input class="form-control" id="lastname" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="region">Country / Region *</label>
-                    <input
-                      class="form-control"
-                      id="region"
-                      type="text"
-                      value="United Kingdoom (UK)"
-                    />
+                    <label class="form-label" for="region">
+                      {{ 'checkout.billing.country_region' | translate }} *
+                    </label>
+                    <input class="form-control" id="region" type="text" value="United Kingdoom (UK)" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="address">Street Address *</label>
+                    <label class="form-label" for="address">
+                      {{ 'checkout.billing.street_address' | translate }} *
+                    </label>
                     <input class="form-control" id="address" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="apartment"
-                      >Apartment, suite, unit, etc. (optional)</label
-                    >
+                    <label class="form-label" for="apartment">
+                      {{ 'checkout.billing.apartment' | translate }}
+                    </label>
                     <input class="form-control" id="apartment" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="towncity">Town / City *</label>
+                    <label class="form-label" for="towncity">
+                      {{ 'checkout.billing.city' | translate }} *
+                    </label>
                     <input class="form-control" id="towncity" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="country">Country (optional)</label>
+                    <label class="form-label" for="country">
+                      {{ 'checkout.billing.country_optional' | translate }}
+                    </label>
                     <input class="form-control" id="country" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="postcode">Postcode *</label>
+                    <label class="form-label" for="postcode">
+                      {{ 'checkout.billing.postcode' | translate }} *
+                    </label>
                     <input class="form-control" id="postcode" type="text" />
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="phone">Phone *</label>
+                    <label class="form-label" for="phone">
+                      {{ 'checkout.billing.phone' | translate }} *
+                    </label>
                     <input class="form-control" id="phone" type="text" />
                   </div>
                 </div>
-                <div class="col-lg-12">
-                  <div class="form-group">
-                    <label> <input class="cb-left" type="checkbox" />Create an account? </label>
-                  </div>
-                </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
                     <label>
-                      <input class="cb-left" type="checkbox" />Ship to a different address?
+                      <input class="cb-left" type="checkbox" />
+                      {{ 'checkout.billing.create_account' | translate }}
                     </label>
                   </div>
                 </div>
+
                 <div class="col-lg-12">
                   <div class="form-group">
-                    <label class="form-label" for="ordernote">Order Note (optional)</label>
+                    <label>
+                      <input class="cb-left" type="checkbox" />
+                      {{ 'checkout.billing.different_address' | translate }}
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label class="form-label" for="ordernote">
+                      {{ 'checkout.billing.order_note' | translate }}
+                    </label>
                     <textarea class="form-control" id="ordernote" rows="6"></textarea>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           <div class="col-lg-6">
             <div class="box-detail-cart">
-              <h4 class="mb-25">Your Order</h4>
+              <h4 class="mb-25">{{ 'checkout.order.title' | translate }}</h4>
+
               <div class="box-info-cart">
-                <p class="text-17-medium text-uppercase">Product</p>
-                <div class="box-info-checkout-inner">
-                  <div class="list-items-cart">
-                    <div class="item-cart">
-                      <div class="item-cart-image">
-                        <img src="/imgs/page/cart/sp.png" alt="Guza" />
-                      </div>
-                      <div class="item-cart-info">
-                        <div class="item-cart-info-1">
-                          <a class="text-17-medium" routerLink="/">Ball Crew Shirt - x1</a>
-                          <p class="box-color">
-                            <span class="body-p2 neutral-medium-dark">Color: </span
-                            ><span class="body-p2 neutral-dark">Navy </span>
-                          </p>
-                          <p class="box-size">
-                            <span class="body-p2 neutral-medium-dark">Size: </span
-                            ><span class="body-p2 neutral-dark">S </span>
-                          </p>
-                        </div>
-                        <div class="item-cart-info-2">
-                          <p class="body-p2">$24.00</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <p class="text-17-medium text-uppercase">
+                  {{ 'checkout.order.product' | translate }}
+                </p>
+
                 <div class="d-flex align-items-center justify-content-between box-border-bottom">
-                  <h5 class="neutral-medium-dark">Subtotal</h5>
+                  <h5 class="neutral-medium-dark">
+                    {{ 'checkout.order.subtotal' | translate }}
+                  </h5>
                   <h5 class="neutral-dark">$24.00</h5>
                 </div>
+
                 <div class="box-info-cart-inner">
-                  <p class="text-17-medium text-uppercase mb-15 neutral-medium-dark">Shipping</p>
-                  <div class="list-radio">
-                    <div class="item-radio">
-                      <label>
-                        <input type="radio" name="shipping" checked="checked" />Flat rate: $50.00 </label
-                      ><span class="price-ship">$50.00</span>
-                    </div>
-                    <div class="item-radio">
-                      <label> <input type="radio" name="shipping" />Local pickup: $60.00 </label>
-                    </div>
-                  </div>
+                  <p class="text-17-medium text-uppercase mb-15 neutral-medium-dark">
+                    {{ 'checkout.order.shipping' | translate }}
+                  </p>
                 </div>
+
                 <div class="d-flex align-items-center justify-content-between box-border-bottom">
-                  <h5 class="neutral-medium-dark">Total</h5>
+                  <h5 class="neutral-medium-dark">
+                    {{ 'checkout.order.total' | translate }}
+                  </h5>
                   <h5 class="color-9">$74.00</h5>
                 </div>
+
                 <div class="box-other-link text-start box-border-bottom">
-                  <span class="text-17 link-green">Free shipping on orders over $200.00</span
-                  ><a class="text-17" routerLink="/">Continue Shopping</a>
+                  <span class="text-17 link-green">
+                    {{ 'checkout.order.free_shipping' | translate }}
+                  </span>
+                  <a class="text-17" routerLink="/">
+                    {{ 'checkout.order.continue_shopping' | translate }}
+                  </a>
                 </div>
-                <div class="box-payment-method">
-                  <p class="text-17-medium text-uppercase mb-15 neutral-medium-dark">Shipping</p>
-                  <div class="list-radio">
-                    <div class="item-radio">
-                      <label>
-                        <input type="radio" name="payment" checked="checked" />Direct bank transfer
-                      </label>
-                      <p class="body-p2 neutral-medium-dark extra-info active">
-                        Please send a check to Store Name, Store Street, Store Town, Store State /
-                        County, Store Postcode.
-                      </p>
-                    </div>
-                    <div class="item-radio">
-                      <label> <input type="radio" name="payment" />Cash on delivery </label>
-                      <p class="body-p2 neutral-medium-dark extra-info">
-                        Please send a check to Store Name, Store Street, Store Town, Store State /
-                        County, Store Postcode.
-                      </p>
-                    </div>
-                    <div class="item-radio">
-                      <label> <input type="radio" name="payment" />Credit Card (Stripe) </label>
-                      <p class="body-p2 neutral-medium-dark extra-info">
-                        Please send a check to Store Name, Store Street, Store Town, Store State /
-                        County, Store Postcode.
-                      </p>
-                    </div>
-                    <div class="item-radio">
-                      <label> <input type="radio" name="payment" />Paypal </label>
-                      <p class="body-p2 neutral-medium-dark extra-info">
-                        Please send a check to Store Name, Store Street, Store Town, Store State /
-                        County, Store Postcode.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+
                 <div class="box-desc-checkout">
                   <p class="body-p2 neutral-medium-dark mb-20">
-                    Your personal data will be used to process your order, support your experience
-                    throughout this website, and for other purposes described in our privacy policy.
+                    {{ 'checkout.privacy.text' | translate }}
                   </p>
                   <div class="form-group">
                     <label>
-                      <input class="cb-left" type="checkbox" />I agree to the website
-                      <a routerLink="/">terms and conditions *</a>
+                      <input class="cb-left" type="checkbox" />
+                      {{ 'checkout.privacy.agree' | translate }}
+                      <a routerLink="/">{{ 'checkout.privacy.terms' | translate }}</a>
                     </label>
                   </div>
                 </div>
+
                 <div class="box-button-checkout">
-                  <a class="btn btn-black" routerLink="/">Place Order</a>
+                  <a class="btn btn-black" routerLink="/">
+                    {{ 'checkout.place_order' | translate }}
+                  </a>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </form>
     </div>

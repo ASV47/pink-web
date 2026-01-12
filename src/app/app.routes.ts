@@ -34,11 +34,16 @@ export const routes: Routes = [
   {
     path: 'customerservice',
     loadComponent: () =>
-      import('./Components/pages/customeService/customer-service/custome-service').then((m) => m.CustomeService),
+      import('./Components/pages/customeService/customer-service/custome-service').then(
+        (m) => m.CustomeService
+      ),
   },
   {
-    path:'referAFriend',
-    loadComponent:()=>import('./Components/pages/customeService/refer-afriend/refer-afriend').then((m)=>m.ReferAFriend)
+    path: 'referAFriend',
+    loadComponent: () =>
+      import('./Components/pages/customeService/refer-afriend/refer-afriend').then(
+        (m) => m.ReferAFriend
+      ),
   },
   {
     path: 'checkout',
@@ -61,8 +66,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./Components/pages/store-location/store-location').then((m) => m.StoreLocation),
   },
- 
-  
+
   {
     path: 'shopliftfilter',
     loadComponent: () =>
@@ -84,11 +88,7 @@ export const routes: Routes = [
         (m) => m.ShopCanvasFilter
       ),
   },
-  {
-    path: 'commingsoon',
-    loadComponent: () =>
-      import('./Components/pages/comming-soon/comming-soon').then((m) => m.CommingSoon),
-  },
+
   {
     path: 'shopcategory',
     loadComponent: () =>

@@ -14,3 +14,14 @@
     height: 42px;
     border-radius: 50%;
 } */
+/* pagination must stay LTR even in RTL pages */
+[dir="rtl"] .box-pagination {
+    direction: ltr;
+    text-align: center;
+}
+
+/* reverse visual order of prev/next buttons */
+[dir="rtl"] .box-pagination .page-prev svg,
+[dir="rtl"] .box-pagination .page-next svg {
+    transform: rotate(180deg);
+}

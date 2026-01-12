@@ -26,7 +26,13 @@ TABLE CONTENT
  WP STYPE
  Custom amine
 ***/
+/* Default (English or others) */
+
+
+
 @import url(https://fonts.bunny.net/css?family=jost:400,500,600,700|cormorant:400,500,700|quicksand:400,500,700|eb-garamond:400,500,600|fjalla-one:400|bebas-neue:400|family=poppins:400,800,900);
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+
 @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap");
 /* import vendors*/
 /* @import url(css/vendors/normalize.css);
@@ -15856,4 +15862,27 @@ html[dir="rtl"] .box-banner-info .row {
 html[dir="rtl"] .box-cover-image {
     left: auto;
     right: 0px;
+}
+
+/* Breadcrumbs RTL fix */
+html[lang="ar"] .breadcrumbs ul li::before {
+    right: auto !important;
+    left: 5px !important;
+
+    transform: rotate(180deg);
+}
+
+html[lang="ar"] .breadcrumbs ul li {
+    padding-right: 0 !important;
+    padding-left: 20px !important;
+}
+
+/*! Language*/
+html[lang="ar"] *,
+html[lang="ar"] body,
+html[lang="ar"] input,
+html[lang="ar"] textarea,
+html[lang="ar"] select,
+html[lang="ar"] button {
+    font-family: 'Cairo', sans-serif !important;
 }

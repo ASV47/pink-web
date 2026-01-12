@@ -80,6 +80,552 @@
       "select_options": "Select Options"
     }
   },
+  "about": {
+    "banner": {
+      "title_line1": "Believe in Craftsmanship",
+      "title_line2": "and Luxurious Design"
+    },
+    "our_shop": {
+      "subtitle": "our shop",
+      "title_line1": "Focusing on Quality",
+      "title_line2": "Material, Good Design",
+      "description": "Donec non interdum nisl. Sed ut est ac lacus sodales convallis. Nam non velit justo. Mauris vel ultrices tortor. Proin bibendum magna porttitor porttitor suscipit. Praesent sit amet consequat eros. Quisque ullamcorper ornare vulputate. Nam sodales sem id diam sollicitudin, id lobortis tellus tincidunt."
+    },
+    "quality_promise": {
+      "subtitle": "Our quality promise",
+      "title": "We Developed Products We Need",
+      "shipping": {
+        "title": "Shipping Worldwide",
+        "description": "To stores and home"
+      },
+      "returns": {
+        "title": "60 - Days Returns",
+        "description": "60 - days free return policy"
+      },
+      "payment": {
+        "title": "Security Payment",
+        "description": "We accept all major credit cards"
+      }
+    },
+    "testimonials": {
+      "subtitle": "WHAT BUYERS SAY",
+      "title": "Customers Reviews",
+      "review_text": "\" As women who value our health, we're here to do what we do best - roll up our sleeves to get it done right.\"",
+      "reviewer_name": "Randy Workman"
+    },
+    "team": {
+      "subtitle": "Meet the founders",
+      "title": "We're Supply Chain",
+      "anna": {
+        "name": "Anna Madsen",
+        "position": "Co-founder"
+      },
+      "terry": {
+        "name": "Terry Kenter",
+        "position": "Designer"
+      },
+      "ruben": {
+        "name": "Ruben Donin",
+        "position": "Makerter"
+      }
+    }
+  },
+  "blog": {
+    "header": {
+      "title": "Our Stories",
+      "breadcrumb_home": "Home",
+      "breadcrumb_blog": "Blog"
+    },
+    "tabs": {
+      "all": "All",
+      "fashion": "Fashion",
+      "lifestyle": "Lifestyle",
+      "inspiration": "Inspiration",
+      "photography": "Photography"
+    },
+    "card": {
+      "tag_fashion": "Fashion",
+      "date": "Dec 1, 2022",
+      "title": "The Best Winter Trend for 2022/2023",
+      "description": "At this point, your 2022 wardrobe is probably looking a lot like your closet",
+      "read_more": "Read More"
+    },
+    "load_more": "Load More"
+  },
+  "careers": {
+    "values": {
+      "subtitle": "Our Values",
+      "title_line1": "Community,",
+      "title_line2": "Collaboration,",
+      "title_line3": "Transparency.",
+      "description": "We believe people are happier, healthier, and more fulfilled when they can afford to live well."
+    },
+    "benefits": {
+      "subtitle": "Benefits",
+      "title": "Values that define us",
+      "items": {
+        "compensation": {
+          "title": "Compensation",
+          "description": "We offer fair and competitive compensation packages."
+        },
+        "flexibility": {
+          "title": "Flexibility",
+          "description": "We provide a flexible work environment that supports work-life balance."
+        },
+        "comprehensive": {
+          "title": "Comprehensive Benefits",
+          "description": "Well-rounded benefits designed to support your health and well-being."
+        }
+      }
+    },
+    "testimonials": {
+      "quote": "We’re still so early — every individual makes a huge impact.",
+      "founder_title": "Founder of July"
+    },
+    "positions": {
+      "subtitle": "Open positions",
+      "title": "Joining us will Change Your Life",
+      "job_title": "Assistant Category Manager",
+      "job_info": "Product / Full Time / Lake Colby, UK",
+      "apply": "Apply Now"
+    }
+  },
+  "cart": {
+    "breadcrumb": {
+      "home": "Home",
+      "cart_items": "Cart Items"
+    },
+    "header": {
+      "title": "Your Cart",
+      "items_count": "2 items"
+    },
+    "product": {
+      "name": "Ball Crew Shirt",
+      "color": "Color",
+      "size": "Size",
+      "price": "$24.00"
+    },
+    "coupon": {
+      "placeholder": "Coupon code",
+      "apply": "Apply",
+      "update_cart": "Update Cart"
+    },
+    "also_like": {
+      "title": "You May Also Like",
+      "price": "$35.00",
+      "add_to_cart": "Add to Cart"
+    },
+    "summary": {
+      "title": "Order Summary",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "flat_rate": "Flat rate",
+      "local_pickup": "Local pickup",
+      "note": "Shipping options will be updated during checkout.",
+      "calculate_shipping": "Calculate shipping",
+      "total": "Total",
+      "checkout": "Proceed To Checkout",
+      "free_shipping": "Free shipping on orders over $200.00",
+      "continue_shopping": "Continue Shopping"
+    }
+  },
+  "checkout": {
+    "breadcrumb": {
+      "home": "Home",
+      "checkout": "Checkout"
+    },
+    "login_notice": {
+      "text": "Returning customer?",
+      "action": "Click here to login"
+    },
+    "coupon_notice": {
+      "text": "Have a coupon?",
+      "action": "Click here to enter your code"
+    },
+    "billing": {
+      "title": "Billing Details",
+      "contact": "Contact information",
+      "email": "Email Address",
+      "email_news": "Email me with news and offers",
+      "shipping_address": "Shipping address",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "country_region": "Country / Region",
+      "street_address": "Street Address",
+      "apartment": "Apartment, suite, unit (optional)",
+      "city": "Town / City",
+      "country_optional": "Country (optional)",
+      "postcode": "Postcode",
+      "phone": "Phone",
+      "create_account": "Create an account?",
+      "different_address": "Ship to a different address?",
+      "order_note": "Order Note (optional)"
+    },
+    "order": {
+      "title": "Your Order",
+      "product": "Product",
+      "color": "Color",
+      "size": "Size",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "flat_rate": "Flat rate",
+      "local_pickup": "Local pickup",
+      "total": "Total",
+      "free_shipping": "Free shipping on orders over $200.00",
+      "continue_shopping": "Continue Shopping"
+    },
+    "payment": {
+      "title": "Payment Method",
+      "bank_transfer": "Direct bank transfer",
+      "cash": "Cash on delivery",
+      "card": "Credit Card (Stripe)",
+      "paypal": "Paypal",
+      "info": "Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode."
+    },
+    "privacy": {
+      "text": "Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.",
+      "agree": "I agree to the website",
+      "terms": "terms and conditions *"
+    },
+    "place_order": "Place Order"
+  },
+  "contact": {
+    "banner": {
+      "overline": "NEED HELP?",
+      "title_line1": "Haven’t found what",
+      "title_line2": "you’re looking for?",
+      "title_line3": "Contact us"
+    },
+    "info": {
+      "address_title": "Address",
+      "address": "8425 Melrose Ave, Los Angeles, CA 90069",
+      "contact_title": "Contact",
+      "phone": "Phone. +1 970 429 4170",
+      "email": "Email. hello@uxper.co",
+      "hours_title": "Hour of Operation",
+      "hours": "Mon - Fri: 08:30 - 20:00\nSat & Sun: 09:30 - 21:30"
+    },
+    "form": {
+      "title": "Get in Touch",
+      "subtitle": "Your email address will not be published. Required fields are marked *",
+      "name": "Name *",
+      "email": "Email *",
+      "phone": "Phone number",
+      "website": "Website",
+      "message": "Contents",
+      "submit": "Post Comment"
+    }
+  },
+  "customer_service": {
+    "banner": {
+      "overline": "CUSTOMER SERVICE",
+      "title_line1": "Any questions?",
+      "title_line2": "We’re here to help"
+    },
+    "menu": {
+      "privacy": "Privacy Policy",
+      "shipping_returns": "Shipping & Returns",
+      "financing": "Financing",
+      "cookies": "Cookie Policy",
+      "terms": "Terms & Conditions",
+      "coupons": "Coupon & Promotions"
+    },
+    "content": {
+      "privacy_title": "Privacy Policy",
+      "section_1_title": "Information Collection and Use",
+      "section_1_text": "We collect and use information to improve our services, enhance user experience, and ensure quality delivery.",
+      "section_2_title": "Personally Identifiable Information",
+      "section_2_text": "We may collect personally identifiable information that you voluntarily provide while using our services.",
+      "section_3_title": "Non-Personally Identifiable Information",
+      "section_3_text": "We automatically collect non-personal information such as browser type, language, date, and time for analytics purposes.",
+      "section_4_title": "Use of Information",
+      "section_4_text": "The information collected is used to improve services, monitor performance, and deliver relevant content.",
+      "help_text": "Don't see what you're looking for? All you have to do is ask — we'll do our best to track down your request.",
+      "contact_button": "Contact Us"
+    }
+  },
+  "refer": {
+    "title": "Refer to Your Friend",
+    "description": "Share your referral link with your friends.\nWhen they sign up using your link, you'll receive exclusive rewards and extra benefits.",
+    "button": "Copy Referral Link"
+  },
+  "faq": {
+    "banner": {
+      "overline": "FAQ’S",
+      "title_line1": "Any questions?",
+      "title_line2": "We’re here to help"
+    },
+    "sections": {
+      "delivery": {
+        "title": "Delivery Information",
+        "q1": {
+          "question": "Shipping destinations",
+          "answer": "For now we ship to the following countries: Austria, Belgium, Czech Republic, Lithuania, Luxembourg, Latvia, Slovakia, Hungary, Bulgaria, Romania, Slovenia, Finland, Denmark, Estonia, Netherlands, Germany, France, Great Britain, Croatia, Ireland, Sweden, Italy, Greece, Spain, Portugal and Poland."
+        },
+        "q2": {
+          "question": "Shipping times",
+          "answer": "Shipping times vary depending on your location and selected shipping method. Estimated delivery times are shown during checkout."
+        },
+        "q3": {
+          "question": "Tracking your parcel",
+          "answer": "You can track your parcel using the tracking number sent to you once your order has been shipped."
+        }
+      },
+      "returns": {
+        "title": "Returns & Refunds",
+        "q1": {
+          "question": "How can I return my purchase?",
+          "answer": "You can request a return through your account or by contacting customer support for assistance."
+        },
+        "q2": {
+          "question": "Can I cancel my order?",
+          "answer": "Orders can be cancelled before shipment. After shipping, our return policy will apply."
+        }
+      },
+      "guide": {
+        "title": "How to choose an urn",
+        "q1": {
+          "question": "How can I return my purchase?",
+          "answer": "Please review our return guide or contact support for further assistance."
+        },
+        "q2": {
+          "question": "Can I cancel my order?",
+          "answer": "Order cancellation depends on the order status and our cancellation policy."
+        }
+      }
+    },
+    "footer": {
+      "question": "Have a question not covered in the FAQ?",
+      "contact": "Contact Us"
+    }
+  },
+
+  "notFound": {
+    "title": "404 - Not found!",
+    "description": "This page could not be found.",
+    "continue": "Continue to the Home Page"
+  },
+  "lookbook": {
+    "items": [
+      {
+        "title": "WINTER 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "MENWEAR 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "SUMMER 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "JACKETS 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "RESORT 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "FALL / SPRING 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "BEACH CAPSULE",
+        "button": "Discover"
+      },
+      {
+        "title": "AUTUMN JEANS 2023",
+        "button": "Discover"
+      },
+      {
+        "title": "FALL / WINTER 2022",
+        "button": "Discover"
+      }
+    ]
+  },
+  "stores": {
+    "banner": {
+      "label": "Store Locations",
+      "title_line1": "Our stores are open",
+      "title_line2": "Day of the year"
+    },
+    "cards": {
+      "lincolnPark": {
+        "name": "Lincoln Park",
+        "address": "211 W Armitage Ave, Chicago, IL 60614",
+        "phone": "T. +1 773 6216 240",
+        "email": "E. hello@uxper.co",
+        "hours": "Mon: Closed, Tue-Sat: 12PM-6PM, Sun: Closed",
+        "action": "See Inventory"
+      },
+      "georgetown": {
+        "name": "Georgetown",
+        "address": "332 M St NW, Washington, DC 20007",
+        "phone": "T. +1 202 823 4267",
+        "email": "E. hello@uxper.co",
+        "hours": "Mon: Closed, Tue-Sat: 12PM-6PM, Sun: Closed",
+        "action": "See Inventory"
+      }
+    }
+  },
+  "product": {
+    "breadcrumb": {
+      "home": "Home",
+      "shop": "Shop",
+      "women": "Women"
+    },
+    "viewing": {
+      "guests": "guests",
+      "text": "are viewing this product"
+    },
+    "info": {
+      "color_label": "Color:",
+      "size_label": "Size:",
+      "size_guide": "Size Guide",
+      "quantity": "Quantity"
+    },
+    "actions": {
+      "add_to_cart": "Add to Cart",
+      "buy_now": "Buy Now",
+      "select_options": "Select Options"
+    },
+    "shipping": {
+      "free_shipping": "Free shipping over $300",
+      "returns": "60 - Days Returns Learn More"
+    },
+    "meta": {
+      "sku": "SKU:",
+      "categories": "Categories:",
+      "tags": "Tags:",
+      "share": "Share:"
+    },
+    "tabs": {
+      "description": "Description",
+      "size_chart": "Size Chart",
+      "reviews": "Reviews"
+    },
+    "description_content": {
+      "main_text": "The shorts are made from soft organic cotton. They have an elasticated waistband with an internal drawstring and side pockets. They're the same fit as our classic 365 organic cotton shorts and feature a multicolored embroidered logo on the hem.",
+      "model_wears": "Model wears:",
+      "occasion": "Occasion:",
+      "country": "Country:",
+      "outer": "Outer:",
+      "lining": "Lining:",
+      "sole": "Sole:"
+    },
+    "size_chart": {
+      "color": "Color",
+      "size": "Size",
+      "weight": "Weight"
+    },
+    "reviews_section": {
+      "title": "Customer reviews",
+      "out_of": "out of",
+      "star": "star",
+      "how_calculated": "How are ratings calculated?",
+      "questions_title": "Customer questions & answers",
+      "reply": "Reply"
+    },
+    "related": {
+      "title": "You May Also Like"
+    }
+  },
+  "home": {
+    "banner": {
+      "title_line1": "She is very",
+      "title_line2": "much herself.",
+      "subtitle": "Use code HOLIDAY at checkout. Ends 11/29/21",
+      "button": "View Collection",
+      "title_alt_line1": "She is truly herself",
+      "title_alt_line2": "completely."
+    },
+    "collection": {
+      "title": "2020 Collection",
+      "description": "Thelma shoes are handmade by expert Italian artisans dedicated to preserving inherited techniques.",
+      "button": "View Collection"
+    },
+    "reviews": {
+      "title": "Customers Reviews",
+      "tagline": "VIBRANT YET REFINED",
+      "description": "We’re in the business of creating happy tears, stunned silences, “oh, wow”s, and booming belly laughs.",
+      "read_more": "Read More"
+    },
+    "tabs": {
+      "best_sellers": "Best Sellers",
+      "new_products": "New Products",
+      "sales_products": "Sales Products"
+    },
+    "product": {
+      "select_options": "Select Options",
+      "title": "Lace Shirt Cut II"
+    },
+    "features": {
+      "shipping_title": "Shipping Worldwide",
+      "shipping_desc": "To stores and home",
+      "returns_title": "60 - Days Returns",
+      "returns_desc": "60 - days free return policy",
+      "payment_title": "Security Payment",
+      "payment_desc": "We accept all major credit cards"
+    },
+    "instagram": {
+      "title": "Instagram with",
+      "hashtag": "#July"
+    }
+  },
+  "shop": {
+    "banner": {
+      "title": "Shop",
+      "breadcrumb_home": "Home",
+      "breadcrumb_shop": "Shop"
+    },
+    "filters": {
+      "title": "Filter",
+      "categories": "Categories",
+      "colors": "Colors",
+      "size": "Size",
+      "brand": "Brand",
+      "price": "Price",
+      "category": {
+        "womens": "Womens",
+        "mens": "Mens",
+        "kids": "Kids",
+        "gifts": "Gifts",
+        "hats": "Hats",
+        "glasses": "Glasses",
+        "jeans": "Jeans"
+      },
+      "colors_list": {
+        "blue": "Blue",
+        "grey": "Grey",
+        "red": "Red",
+        "yellow": "Yellow"
+      }
+    },
+    "top_bar": {
+      "showing": "Showing 9 of 18 products",
+      "filter": "Filter",
+      "default_sort": "Default Sorting",
+      "oldest": "Oldest products",
+      "comments": "Comments products"
+    },
+    "active_filters": {
+      "title": "Your filter",
+      "clear_all": "Clear All"
+    },
+    "product": {
+      "select_options": "Select Options",
+      "title": "Lace Shirt Cut II"
+    },
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "recently_viewed": {
+      "title": "Recently Viewed Products"
+    }
+  },
   "footer": {
     "newsletter": {
       "title": "Receive an exclusive",

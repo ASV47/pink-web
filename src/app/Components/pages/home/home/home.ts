@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Language } from '../../../../Core/Services/language/language';
 import { register } from 'swiper/element/bundle';
+import { TranslateModule } from '@ngx-translate/core';
 register();
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './home.html',
   styleUrl: './home.css',
