@@ -1,0 +1,158 @@
+.network-status {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    transform: translateY(-100%);
+}
+
+.network-status.online {
+    /* #4caf50 */
+    background: #4caf50;
+    color: white;
+    animation: slideDown 0.3s ease forwards,
+        slideUp 0.3s ease 3s forwards;
+}
+
+.network-status.offline {
+    background: #ff9800;
+    color: white;
+    animation: slideDown 0.5s ease forwards;
+}
+
+.status-icon {
+    font-size: 12px;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-100%);
+    }
+}
+
+.update-prompt {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.3s ease;
+}
+
+.update-content {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: scaleIn 0.3s ease;
+}
+
+.update-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.update-content h3 {
+    margin: 0 0 12px 0;
+    color: #333;
+    font-size: 20px;
+}
+
+.update-content p {
+    margin: 0 0 24px 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.update-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.btn-update,
+.btn-later {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-update {
+    background: #e91e63;
+    color: white;
+}
+
+.btn-update:hover {
+    background: #c2185b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+.btn-later {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.btn-later:hover {
+    background: #e0e0e0;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

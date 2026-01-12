@@ -1,0 +1,58 @@
+.refer-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+}
+
+.refer-card {
+    max-width: 520px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid rgba(200, 129, 95, 0.35);
+    border-radius: 12px;
+}
+
+.refer-title {
+    color: #c8815f;
+    font-weight: 600;
+}
+
+.refer-description {
+    color: #000000;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.referral-box {
+    border: 1px dashed rgba(200, 129, 95, 0.5);
+    border-radius: 8px;
+    padding: 12px;
+}
+
+.referral-link {
+    color: #000000;
+    font-size: 0.95rem;
+    word-break: break-all;
+}
+
+.refer-btn {
+    background-color: #c8815f;
+    color: #000000;
+    font-weight: 600;
+    border: none;
+}
+
+.refer-btn:hover {
+    background-color: #b87455;
+    color: #000000;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .refer-card {
+        padding: 20px;
+    }
+
+    .refer-title {
+        font-size: 1.4rem;
+    }
+}

@@ -1,0 +1,80 @@
+<header class="header sticky-bar" [class.stick]="isSticky">
+  <div class="container">
+    <div class="main-header">
+      <!-- Logo -->
+      <div class="header-logo">
+        <a class="d-flex" routerLink="/">
+          <img alt="luxride" src="assets/imgs/template/logo.png" />
+        </a>
+      </div>
+
+      <!-- Menu -->
+      <div class="header-menu" [class.active]="isMenuOpen">
+        <div class="header-nav">
+          <nav class="nav-main-menu d-none d-xl-block">
+            <ul class="main-menu">
+              <li class="has-children">
+                <a href="javascript:void(0)">Shop</a>
+                <ul class="sub-menu">
+                  <li><a routerLink="/shopliftfilter">Shop - Left Filter</a></li>
+                  <li><a routerLink="/shoptopfilter">Shop - Top Filter</a></li>
+                  <li><a routerLink="/shopcanvasfilter">Shop - Canvas Filter</a></li>
+                  <li><a routerLink="/shopcategory">Shop - Category</a></li>
+                  <li><a routerLink="/shopcustombanner">Shop - Custom Banner</a></li>
+                  <li><a routerLink="/shoploadmore">Shop - Load More</a></li>
+                  <li><a routerLink="/shopinfinity">Shop - Infinity</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/product">Products</a>
+              </li>
+
+              <li class="has-children">
+                <a href="javascript:void(0)">Pages</a>
+                <ul class="sub-menu">
+                  <li><a routerLink="/cart">Your Cart</a></li>
+                  <li><a routerLink="/checkout">Checkout</a></li>
+                  <li><a routerLink="/storeLocation">Store Location</a></li>
+                  <li><a routerLink="/about">About Us</a></li>
+                  <li><a routerLink="/lookbook">Lookbook</a></li>
+                  <li><a routerLink="/FAQ">FAQs</a></li>
+                  <li><a routerLink="/contact">Contact Us</a></li>
+                  <li><a routerLink="/careers">Careers</a></li>
+                  <li><a routerLink="/customerservice">Customer Services</a></li>
+                  <li><a routerLink="/maintenance">Maintenance</a></li>
+                  <li><a routerLink="/comingsoon">Coming Soon</a></li>
+                </ul>
+              </li>
+
+              <li>
+                <a routerLink="/blog">Blog</a>
+              </li>
+
+              <li>
+                <a routerLink="/contact">Contact</a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Burger -->
+          <div class="burger-icon burger-icon-white" (click)="toggleMenu()">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Icons -->
+      <div class="header-account">
+        <a class="account-icon search" (click)="openSearch()"></a>
+        <a class="account-icon account" (click)="openLogin()"></a>
+        <a class="account-icon wishlist" (click)="openWishlist()">
+          <span class="number-tag">{{ wishlistCount }}</span>
+        </a>
+        <a class="account-icon cart" (click)="openCart()">
+          <span class="number-tag">{{ cartCount }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,29 @@
+<div class="network-status" [class.offline]="!isOnline" [class.online]="isOnline" [attr.data-state]="isOnline">
+
+
+    <span class="status-icon">{{ isOnline ? '🟢' : '🔴' }}</span>
+    <span class="status-text">
+        {{ isOnline ? 'متصل بالإنترنت' : 'غير متصل بالأنترنت - حاول الأتصال في وقت لاحق' }}
+    </span>
+</div>
+
+
+<div class="update-prompt" *ngIf="updateAvailable$ | async">
+    <div class="update-content">
+        <h3>تحديث جديد متاح</h3>
+        <p>يوجد إصدار جديد من التطبيق. هل تريد التحديث الآن؟</p>
+        <div class="update-actions">
+            <button class="btn-update" (click)="applyUpdate()">
+                تحديث الآن
+            </button>
+            <button class="btn-later" (click)="dismissUpdate()">
+                لاحقاً
+            </button>
+        </div>
+    </div>
+</div>
+<div class="toasts-container" *ngIf="toastService.toasts$ | async as toasts">
+    <div *ngFor="let toast of toasts" class="toast {{ toast.type }}" (click)="toastService.remove(toast.id)">
+        {{ toast.message }} !
+    </div>
+</div>

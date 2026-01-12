@@ -1,0 +1,124 @@
+{
+  "header": {
+    "shop": "المتجر",
+    "products": "المنتجات",
+    "blog": "المدونة",
+    "contact": "اتصل بنا",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب"
+  },
+  "popup": {
+    "preview": {
+      "title": "شورت مخطط صيفي",
+      "guests_viewing": "زائر يشاهدون هذا المنتج",
+      "description": "الشورت مصنوع من القطن العضوي الناعم. يحتوي على حزام خصر مطاطي مع رباط داخلي وجيوب جانبية.",
+      "quantity": "الكمية",
+      "add_to_cart": "أضف إلى السلة",
+      "buy_now": "اشتري الآن",
+      "sku": "رمز المنتج:",
+      "categories": "الفئات:",
+      "category_dress": "فستان",
+      "category_pants": "بنطلون",
+      "tags": "الوسوم:",
+      "tag_fashion": "موضة",
+      "tag_shoes": "أحذية",
+      "tag_women": "نساء"
+    },
+    "search": {
+      "title": "ابحث عن المنتجات",
+      "all_categories": "جميع الفئات",
+      "category_animals": "مستلزمات الحيوانات الأليفة",
+      "category_baby": "الطفل والرضيع",
+      "quick_search": "بحث سريع:",
+      "tshirt": "تي شيرت",
+      "jeans": "جينز",
+      "mens": "رجالي",
+      "you_may_like": "قد يعجبك أيضاً",
+      "select_options": "اختر الخيارات"
+    },
+    "account": {
+      "login_tab": "تسجيل الدخول",
+      "signup_tab": "إنشاء حساب",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgot_password": "هل نسيت كلمة المرور؟",
+      "login_button": "تسجيل الدخول",
+      "first_name": "الاسم الأول",
+      "last_name": "اسم العائلة",
+      "agree_text": "انضم مجاناً وابدأ في كسب النقاط اليوم. تشمل المزايا خصم 15٪ على أول عملية شراء،",
+      "create_account": "إنشاء حسابي",
+      "already_account": "هل لديك حساب بالفعل؟",
+      "login_now": "سجل الدخول الآن",
+      "recover_password": "استعادة كلمة المرور",
+      "enter_email": "أدخل بريدك الإلكتروني",
+      "recover": "استعادة"
+    },
+    "cart": {
+      "title": "سلة التسوق",
+      "free_shipping": "شحن مجاني",
+      "on_orders_over": "على الطلبات التي تزيد عن",
+      "empty_cart": "سلة التسوق فارغة",
+      "add_from_wishlist": "أضف من المفضلة",
+      "color": "اللون:",
+      "size": "المقاس:",
+      "you_may_like": "قد يعجبك أيضاً",
+      "select_options": "اختر الخيارات",
+      "checkout_warning": "أكمل الطلب الآن 09:14 قبل أن",
+      "gone": "تنفذ!",
+      "subtotal": "المجموع الفرعي",
+      "view_cart": "عرض السلة",
+      "check_out": "إتمام الطلب"
+    },
+    "wishlist": {
+      "title": "قائمة المفضلة",
+      "empty_cart": "السلة فارغة",
+      "add_from_wishlist": "أضف من المفضلة",
+      "color": "اللون:",
+      "size": "المقاس:",
+      "add_to_cart": "أضف إلى السلة",
+      "you_may_like": "قد يعجبك أيضاً",
+      "select_options": "اختر الخيارات"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "احصل على كود خصم حصري",
+      "discount": "20%",
+      "subtitle_line1": "عند تسجيلك",
+      "subtitle_line2": "معنا.",
+      "email_placeholder": "أدخل بريدك الإلكتروني",
+      "subscribe_button": "اشترك"
+    },
+    "company": {
+      "title": "الشركة",
+      "about_us": "من نحن",
+      "careers": "الوظائف",
+      "store_locator": "مواقع المتاجر",
+      "lookbook": "معرض الأزياء"
+    },
+    "customer_service": {
+      "title": "خدمة العملاء",
+      "size_guide": "دليل المقاسات",
+      "help_faqs": "المساعدة والأسئلة الشائعة",
+      "return_order": "إرجاع طلبي",
+      "refer_friend": "أوصي بصديق"
+    },
+    "terms_policies": {
+      "title": "الشروط والسياسات",
+      "duties_taxes": "الرسوم والضرائب",
+      "shipping_info": "معلومات الشحن",
+      "privacy_policy": "سياسة الخصوصية",
+      "terms_conditions": "الشروط والأحكام"
+    },
+    "follow_us": {
+      "title": "تابعنا",
+      "instagram": "انستجرام",
+      "facebook": "فيسبوك",
+      "pinterest": "بينترست",
+      "tiktok": "تيك توك"
+    },
+    "bottom": {
+      "copyright": "© 2023 Guza.Co. جميع الحقوق محفوظة"
+    }
+  }
+}

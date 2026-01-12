@@ -1,0 +1,124 @@
+{
+  "header": {
+    "shop": "Shop",
+    "products": "Products",
+    "blog": "Blog",
+    "contact": "Contact",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "popup": {
+    "preview": {
+      "title": "Summer Stripes Shorts",
+      "guests_viewing": "guests are viewing this product",
+      "description": "The shorts are made from soft organic cotton. They have an elasticated waistband with an internal drawstring and side pockets.",
+      "quantity": "Quantity",
+      "add_to_cart": "Add to Cart",
+      "buy_now": "Buy Now",
+      "sku": "SKU:",
+      "categories": "Categories:",
+      "category_dress": "Dress",
+      "category_pants": "Pants",
+      "tags": "Tags:",
+      "tag_fashion": "fashion",
+      "tag_shoes": "shoes",
+      "tag_women": "women"
+    },
+    "search": {
+      "title": "Search products",
+      "all_categories": "All Categories",
+      "category_animals": "Animals & Pet Supplies",
+      "category_baby": "Baby & Toddler",
+      "quick_search": "Quick search:",
+      "tshirt": "T-Shirt",
+      "jeans": "Jeans",
+      "mens": "Mens",
+      "you_may_like": "You May Also Like",
+      "select_options": "Select Options"
+    },
+    "account": {
+      "login_tab": "Login",
+      "signup_tab": "Sign up",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot your password?",
+      "login_button": "Login",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "agree_text": "Join for Free and start earning points today. Benefits include 15% off your first purchase,",
+      "create_account": "Create my account",
+      "already_account": "Already have an account?",
+      "login_now": "Login Now",
+      "recover_password": "Recover password",
+      "enter_email": "Enter your email",
+      "recover": "Recover"
+    },
+    "cart": {
+      "title": "Your Cart",
+      "free_shipping": "Free Shipping",
+      "on_orders_over": "on orders over",
+      "empty_cart": "Your cart is empty",
+      "add_from_wishlist": "Add from Wishlist",
+      "color": "Color:",
+      "size": "Size:",
+      "you_may_like": "You May Also Like",
+      "select_options": "Select Options",
+      "checkout_warning": "Checkout now 09:14 before they're",
+      "gone": "GONE!",
+      "subtotal": "Subtotal",
+      "view_cart": "View Cart",
+      "check_out": "Check Out"
+    },
+    "wishlist": {
+      "title": "Your Wishlist",
+      "empty_cart": "Your cart is empty",
+      "add_from_wishlist": "Add from Wishlist",
+      "color": "Color:",
+      "size": "Size:",
+      "add_to_cart": "Add to cart",
+      "you_may_like": "You May Also Like",
+      "select_options": "Select Options"
+    }
+  },
+  "footer": {
+    "newsletter": {
+      "title": "Receive an exclusive",
+      "discount": "20%",
+      "subtitle_line1": "discount code when you",
+      "subtitle_line2": "signup.",
+      "email_placeholder": "Enter your email",
+      "subscribe_button": "Subscribe"
+    },
+    "company": {
+      "title": "Company",
+      "about_us": "About us",
+      "careers": "Careers",
+      "store_locator": "Store Locator",
+      "lookbook": "lookbook"
+    },
+    "customer_service": {
+      "title": "Customer Service",
+      "size_guide": "Size Guide",
+      "help_faqs": "Help & FAQs",
+      "return_order": "Return My Order",
+      "refer_friend": "Refer a Friend"
+    },
+    "terms_policies": {
+      "title": "Terms & Policies",
+      "duties_taxes": "Duties & Taxes",
+      "shipping_info": "Shipping Info",
+      "privacy_policy": "Privacy Policy",
+      "terms_conditions": "Terms Conditions"
+    },
+    "follow_us": {
+      "title": "Follow Us",
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "pinterest": "Pinterest",
+      "tiktok": "Tiktok"
+    },
+    "bottom": {
+      "copyright": "© 2023 Guza.Co. All rights reserved"
+    }
+  }
+}
