@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -15,6 +15,8 @@ import { Observable } from 'rxjs';
 
 import { routes } from './app.routes';
 import { Language } from './Core/Services/language/language';
+import { authInterceptor } from './Core/interceptor/auth-interceptor';
+import { localizationInterceptor } from './Core/interceptor/localization-interceptor';
 
 export class CustomTranslateLoader implements TranslateLoader {
   constructor(private http: HttpClient) {}
@@ -36,7 +38,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authInterceptor, localizationInterceptor])),
 
     importProvidersFrom(
       TranslateModule.forRoot({

@@ -74,47 +74,7 @@ export const routes: Routes = [
         (m) => m.ShopLeftFilter
       ),
   },
-  {
-    path: 'shoptopfilter',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-top-filter/shop-top-filter').then(
-        (m) => m.ShopTopFilter
-      ),
-  },
-  {
-    path: 'shopcanvasfilter',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-canvas-filter/shop-canvas-filter').then(
-        (m) => m.ShopCanvasFilter
-      ),
-  },
 
-  {
-    path: 'shopcategory',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-show-category/shop-show-category').then(
-        (m) => m.ShopShowCategory
-      ),
-  },
-  {
-    path: 'shopcustombanner',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-custom-bunner/shop-custom-bunner').then(
-        (m) => m.ShopCustomBunner
-      ),
-  },
-  {
-    path: 'shoploadmore',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-load-more/shop-load-more').then((m) => m.ShopLoadMore),
-  },
-  {
-    path: 'shopinfinity',
-    loadComponent: () =>
-      import('./Components/pages/Shop/shop-infinity-scrolling/shop-infinity-scrolling').then(
-        (m) => m.ShopInfinityScrolling
-      ),
-  },
   {
     path: '**',
     loadComponent: () => import('./Components/pages/not-found/not-found').then((m) => m.NotFound),

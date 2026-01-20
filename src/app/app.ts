@@ -18,11 +18,7 @@ import { Toast } from './Components/PWA/toast/toast';
 export class App {
   private router = inject(Router);
 
-  constructor(
-    private networkService: Network,
-    private updateService: Update,
-    public toastService: ToastService
-  ) {
+  constructor(public toastService: ToastService) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         window.scroll(0, 0);

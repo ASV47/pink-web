@@ -1,4 +1,4 @@
-<main class="main">
+<main class="main" id="productsTop">
   <div class="section block-banner-shop">
     <div class="container">
       <h1 class="text-56-medium">
@@ -7,10 +7,10 @@
       <div class="breadcrumbs">
         <ul>
           <li>
-            <a href="#">{{ 'shop.banner.breadcrumb_home' | translate }}</a>
+            <a routerLink="/">{{ 'shop.banner.breadcrumb_home' | translate }}</a>
           </li>
           <li>
-            <a href="#">{{ 'shop.banner.breadcrumb_shop' | translate }}</a>
+            <a>{{ 'shop.banner.breadcrumb_shop' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -20,96 +20,114 @@
   <section class="section block-content-shop">
     <div class="container">
       <div class="row">
-        <div class="col-lg-3 ">
-          <div class="wrapper-overlay"></div>
-          <div class="box-filters-sidebar">
+        <div class="col-lg-3">
+          <div class="wrapper-overlay" [class.open]="isFilterOpen" (click)="closeFilter()"></div>
+          <div class="box-filters-sidebar" [class.open]="isFilterOpen">
             <h5 class="title-filter">{{ 'shop.filters.title' | translate }}</h5>
 
             <!-- Categories -->
             <div class="block-filter">
               <h6 class="item-collapse">{{ 'shop.filters.categories' | translate }}</h6>
-              <div class="box-collapse scrollFilter">
-                <ul class="list-filter-checkbox">
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">
-                        {{ 'shop.filters.category.womens' | translate }}
-                        <span class="neutral-medium">(12)</span>
-                      </span>
-                      <span class="checkmark"></span>
-                    </label>
-                    <span class="arrow-down"></span>
-                  </li>
 
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">
-                        {{ 'shop.filters.category.mens' | translate }}
-                        <span class="neutral-medium">(9)</span>
-                      </span>
-                      <span class="checkmark"></span>
-                    </label>
-                    <span class="arrow-down"></span>
-
-                    <ul>
-                      <li>
-                        <label class="cb-container">
-                          <input type="checkbox" />
+              <div class="box-collapse scrollFilter category-scroll">
+                <ul class="list-filter-checkbox category-tree">
+                  @for (cat of categories; track cat.id) {
+                    <li class="tree-item">
+                      <div class="tree-row">
+                        <label class="cb-container tree-label">
+                          <input
+                            type="checkbox"
+                            [checked]="selectedCategoryIds.includes(cat.id)"
+                            (change)="onToggleCategory(cat.id, $any($event.target).checked)"
+                          />
                           <span class="text-small">
-                            {{ 'shop.filters.category.hats' | translate }}
-                            <span class="neutral-medium">(4)</span>
+                            {{ cat.name }}
+                            <span class="neutral-medium">({{ cat.childs.length }})</span>
                           </span>
                           <span class="checkmark"></span>
                         </label>
-                      </li>
-                      <li>
-                        <label class="cb-container">
-                          <input type="checkbox" />
-                          <span class="text-small">
-                            {{ 'shop.filters.category.glasses' | translate }}
-                            <span class="neutral-medium">(3)</span>
-                          </span>
-                          <span class="checkmark"></span>
-                        </label>
-                      </li>
-                      <li>
-                        <label class="cb-container">
-                          <input type="checkbox" />
-                          <span class="text-small">
-                            {{ 'shop.filters.category.jeans' | translate }}
-                            <span class="neutral-medium">(2)</span>
-                          </span>
-                          <span class="checkmark"></span>
-                        </label>
-                      </li>
-                    </ul>
-                  </li>
 
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">
-                        {{ 'shop.filters.category.kids' | translate }}
-                        <span class="neutral-medium">(15)</span>
-                      </span>
-                      <span class="checkmark"></span>
-                    </label>
-                    <span class="arrow-down"></span>
-                  </li>
+                        @if (cat.childs.length) {
+                          <button
+                            type="button"
+                            class="arrow-btn arrow-down"
+                            [class.open]="isExpanded(cat.id)"
+                            (click)="toggleExpand(cat.id); $event.stopPropagation()"
+                            aria-label="Toggle category"
+                          ></button>
+                        }
+                      </div>
 
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">
-                        {{ 'shop.filters.category.gifts' | translate }}
-                        <span class="neutral-medium">(10)</span>
-                      </span>
-                      <span class="checkmark"></span>
-                    </label>
-                    <span class="arrow-down"></span>
-                  </li>
+                      <!-- Level 2 -->
+                      @if (cat.childs.length) {
+                        <ul class="subcats" [class.open]="isExpanded(cat.id)">
+                          @for (child of cat.childs; track child.id) {
+                            <li class="tree-item">
+                              <div class="tree-row">
+                                <label class="cb-container tree-label">
+                                  <input
+                                    type="checkbox"
+                                    [checked]="selectedCategoryIds.includes(child.id)"
+                                    (change)="
+                                      onToggleCategory(child.id, $any($event.target).checked)
+                                    "
+                                  />
+                                  <span class="text-small">
+                                    {{ child.name }}
+                                    <span class="neutral-medium">({{ child.childs.length }})</span>
+                                  </span>
+                                  <span class="checkmark"></span>
+                                </label>
+
+                                @if (child.childs.length) {
+                                  <button
+                                    type="button"
+                                    class="arrow-btn arrow-down"
+                                    [class.open]="isExpanded(child.id)"
+                                    (click)="toggleExpand(child.id); $event.stopPropagation()"
+                                    aria-label="Toggle subcategory"
+                                  ></button>
+                                }
+                              </div>
+
+                              <!-- Level 3 -->
+                              @if (child.childs.length) {
+                                <ul class="subcats" [class.open]="isExpanded(child.id)">
+                                  @for (g of child.childs; track g.id) {
+                                    <li class="tree-item">
+                                      <div class="tree-row">
+                                        <label class="cb-container tree-label">
+                                          <input
+                                            type="checkbox"
+                                            [checked]="selectedCategoryIds.includes(g.id)"
+                                            (change)="
+                                              onToggleCategory(g.id, $any($event.target).checked)
+                                            "
+                                          />
+                                          <span class="text-small">{{ g.name }}</span>
+                                          <span class="checkmark"></span>
+                                        </label>
+
+                                        @if (g.childs.length) {
+                                          <button
+                                            type="button"
+                                            class="arrow-btn arrow-down"
+                                            [class.open]="isExpanded(g.id)"
+                                            (click)="toggleExpand(g.id); $event.stopPropagation()"
+                                            aria-label="Toggle sub-subcategory"
+                                          ></button>
+                                        }
+                                      </div>
+                                    </li>
+                                  }
+                                </ul>
+                              }
+                            </li>
+                          }
+                        </ul>
+                      }
+                    </li>
+                  }
                 </ul>
               </div>
             </div>
@@ -235,15 +253,13 @@
                 </ul>
               </div>
             </div>
-
           </div>
         </div>
-
 
         <div class="col-lg-9">
           <div class="box-filter-top">
             <div class="show-sm">
-              <a class="btn-open-filter" href="#">
+              <a class="btn-open-filter" (click)="toggleFilter()">
                 {{ 'shop.top_bar.filter' | translate }}
               </a>
             </div>
@@ -257,12 +273,21 @@
             <div class="box-sort">
               <div class="box-sortby d-flex align-items-center">
                 <div class="dropdown dropdown-sort">
-                  <button class="btn dropdown-toggle" id="dropdownSort" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                  <button
+                    class="btn dropdown-toggle"
+                    id="dropdownSort"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
                     {{ 'shop.top_bar.default_sort' | translate }}
                   </button>
 
-                  <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="dropdownSort" style="margin: 0px">
+                  <ul
+                    class="dropdown-menu dropdown-menu-light"
+                    aria-labelledby="dropdownSort"
+                    style="margin: 0px"
+                  >
                     <li>
                       <a class="dropdown-item active" href="#">
                         {{ 'shop.top_bar.default_sort' | translate }}
@@ -298,9 +323,7 @@
               </span>
             </div>
             <div class="block-ele-filter">
-              <a class="btn btn-tag-filter" href="#">
-                XS<span class="close-tag"></span>
-              </a>
+              <a class="btn btn-tag-filter" href="#"> XS<span class="close-tag"></span> </a>
               <a class="btn btn-tag-filter" href="#">
                 {{ 'shop.filters.category.womens' | translate }}
                 <span class="close-tag"></span>
@@ -312,300 +335,109 @@
           </div>
 
           <div class="box-list-products row">
-            <div class="col-lg-4 col-md-6 col-6 product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product1.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
+            @for (item of items; track item.id) {
+              <div class="col-lg-4 col-md-6 col-6 product-item">
+                <div class="cardProduct wow fadeInUp">
+                  <div class="cardImage">
+                    <a href="#">
+                      <img
+                        class="imageMain"
+                        [src]="item.imagePath || 'https://placehold.co/400'"
+                        alt="guza"
+                      />
+                      <img
+                        class="imageHover"
+                        src="/imgs/page/homepage1/product1-hover.png"
+                        alt="guza"
+                      />
+                    </a>
+                    <div class="button-select">
+                      <a href="#">{{ item.name }}</a>
+                    </div>
+                    <div class="box-quick-button"></div>
                   </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$16.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product2.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$25.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
+                  <div class="cardInfo">
+                    <a href="#">
+                      <h6 class="text-16-medium cardTitle">
+                        {{ item.name }}
+                      </h6>
+                    </a>
+                    <p class="body-p2 cardDesc">$16.00</p>
+                    <div class="box-colors">
+                      <div class="item-color color-1"></div>
+                      <div class="item-color color-2"></div>
+                      <div class="item-color color-3"></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product3.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$26.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product4.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$15.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product5.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$27.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product6.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$67.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product7.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$87.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product8.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$34.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="product-item">
-              <div class="cardProduct wow fadeInUp">
-                <div class="cardImage">
-                  <a href="#">
-                    <img class="imageMain" src="/imgs/page/homepage1/product2.png" alt="guza" />
-                    <img class="imageHover" src="/imgs/page/homepage1/product1-hover.png" alt="guza" />
-                  </a>
-                  <div class="button-select">
-                    <a href="#">{{ 'shop.product.select_options' | translate }}</a>
-                  </div>
-                  <div class="box-quick-button">
-                    <!-- icons unchanged -->
-                  </div>
-                </div>
-                <div class="cardInfo">
-                  <a href="#">
-                    <h6 class="text-16-medium cardTitle">
-                      {{ 'shop.product.title' | translate }}
-                    </h6>
-                  </a>
-                  <p class="body-p2 cardDesc">$29.00</p>
-                  <div class="box-colors">
-                    <div class="item-color color-1"></div>
-                    <div class="item-color color-2"></div>
-                    <div class="item-color color-3"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            }
           </div>
 
           <div class="text-center mt-50">
             <nav class="box-pagination" dir="ltr">
               <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link page-prev" href="#">
-                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"></path>
-                    </svg></a>
+                <!-- prev -->
+                <li class="page-item" [class.disabled]="!canPrev">
+                  <a
+                    class="page-link page-prev"
+                    href="#"
+                    (click)="$event.preventDefault(); canPrev && prevPage()"
+                  >
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                      ></path>
+                    </svg>
+                  </a>
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link active" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                <li class="page-item">
-                  <a class="page-link page-next" href="#">
-                    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-50">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"></path>
-                    </svg></a>
+
+                <!-- pages -->
+                @for (p of pages; track p) {
+                  <li class="page-item">
+                    <a
+                      class="page-link"
+                      href="#"
+                      [class.active]="p === currentPage"
+                      (click)="$event.preventDefault(); goToPage(p)"
+                    >
+                      {{ p }}
+                    </a>
+                  </li>
+                }
+
+                <!-- next -->
+                <li class="page-item" [class.disabled]="!canNext">
+                  <a
+                    class="page-link page-next"
+                    href="#"
+                    (click)="$event.preventDefault(); canNext && nextPage()"
+                  >
+                    <svg
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                      class="w-50"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+                      ></path>
+                    </svg>
+                  </a>
                 </li>
               </ul>
             </nav>
@@ -622,7 +454,6 @@
         </h3>
       </div>
       <div class="row">
-
         <div class="col-lg-3 col-md-6">
           <div class="cardProduct wow fadeInUp">
             <div class="cardImage">
@@ -742,9 +573,7 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
-
 </main>
