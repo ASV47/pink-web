@@ -3,8 +3,12 @@
     <div class="container">
       <div class="breadcrumbs">
         <ul>
-          <li><a routerLink="/">{{ 'cart.breadcrumb.home' | translate }} </a></li>
-          <li><a routerLink="/">{{ 'cart.breadcrumb.cart_items' | translate }}</a></li>
+          <li>
+            <a routerLink="/">{{ 'cart.breadcrumb.home' | translate }} </a>
+          </li>
+          <li>
+            <a>{{ 'cart.breadcrumb.cart_items' | translate }}</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -16,91 +20,105 @@
         <div class="col-lg-7">
           <div class="box-title-cart">
             <h4>{{ 'cart.header.title' | translate }}</h4>
-            <h6>{{ 'cart.header.items_count' | translate }}</h6>
+            <h6>{{ 'cart.header.items_count' | translate }} ({{ totalQty() }})</h6>
           </div>
 
           <div class="list-items-cart">
-            <div class="item-cart">
-              <div class="item-cart-image">
-                <img src="/imgs/page/cart/sp.png" alt="Guza" />
-              </div>
-              <div class="item-cart-info">
-                <div class="item-cart-info-1">
-                  <a class="text-16-medium" routerLink="/">
-                    {{ 'cart.product.name' | translate }}
-                  </a>
-                  <div class="box-info-size-color-product">
-                    <p class="box-color">
-                      <span class="body-p2 neutral-medium-dark">
-                        {{ 'cart.product.color' | translate }}:
-                      </span>
-                      <span class="body-p2 neutral-dark">Navy</span>
-                    </p>
-                    <p class="box-size">
-                      <span class="body-p2 neutral-medium-dark">
-                        {{ 'cart.product.size' | translate }}:
-                      </span>
-                      <span class="body-p2 neutral-dark">S</span>
-                    </p>
-                  </div>
-                  <div class="box-form-cart">
-                    <div class="form-cart detail-qty">
-                      <span class="minus"></span>
-                      <input class="qty-val form-control" type="text" name="quantity" value="1" min="1" />
-                      <span class="plus"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-cart-info-2">
-                  <p class="body-p2">{{ 'cart.product.price' | translate }}</p>
-                  <a class="btn-remove-cart" routerLink="/"></a>
+            @if (isCartLoading() || isItemLoading() || !cart()) {
+              <div class="py-3 text-center">
+                <div class="spinner-border spinner-border-sm" role="status" aria-label="Loading">
+                  <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
-            </div>
+            } @else if (items().length === 0) {
+              <div class="py-4 text-center">
+                <div class="text-muted">
+                  <div class="fw-semibold">{{ 'cart.empty_state.title' | translate }}</div>
+                  <div class="small mt-1">{{ 'cart.empty_state.subtitle' | translate }}</div>
+                </div>
 
-            <div class="item-cart">
-              <div class="item-cart-image">
-                <img src="/imgs/page/cart/sp2.png" alt="Guza" />
-              </div>
-              <div class="item-cart-info">
-                <div class="item-cart-info-1">
-                  <a class="text-16-medium" routerLink="/">
-                    {{ 'cart.product.name' | translate }}
+                <div class="mt-3">
+                  <a routerLink="/" class="btn btn-sm btn-outline-dark text-left">
+                    {{ 'cart.empty_state.cta' | translate }}
                   </a>
-                  <div class="box-info-size-color-product">
-                    <p class="box-color">
-                      <span class="body-p2 neutral-medium-dark">
-                        {{ 'cart.product.color' | translate }}:
-                      </span>
-                      <span class="body-p2 neutral-dark">Navy</span>
-                    </p>
-                    <p class="box-size">
-                      <span class="body-p2 neutral-medium-dark">
-                        {{ 'cart.product.size' | translate }}:
-                      </span>
-                      <span class="body-p2 neutral-dark">S</span>
-                    </p>
+                </div>
+              </div>
+            } @else {
+              @for (item of items(); track item.id) {
+                <div class="item-cart">
+                  <div class="item-cart-image">
+                    <img src="/imgs/page/cart/sp.png" alt="Guza" />
                   </div>
-                  <div class="box-form-cart">
-                    <div class="form-cart detail-qty">
-                      <span class="minus"></span>
-                      <input class="qty-val form-control" type="text" name="quantity" value="1" min="1" />
-                      <span class="plus"></span>
+
+                  <div class="item-cart-info">
+                    <div class="item-cart-info-1">
+                      <a class="text-16-medium" routerLink="/">
+                        {{ displayName(item) }}
+                      </a>
+
+                      <div class="box-info-size-color-product">
+                        <p class="box-color">
+                          <span class="body-p2 neutral-medium-dark"
+                            >{{ 'cart.product.color' | translate }}:</span
+                          >
+                          <span class="body-p2 neutral-dark">Navy</span>
+                        </p>
+                        <p class="box-size">
+                          <span class="body-p2 neutral-medium-dark"
+                            >{{ 'cart.product.size' | translate }}:</span
+                          >
+                          <span class="body-p2 neutral-dark">S</span>
+                        </p>
+                      </div>
+
+                      <div class="box-form-cart">
+                        <div class="form-cart detail-qty">
+                          <span
+                            class="minus"
+                            (click)="canClick() && decrease(item)"
+                            [class.disabled]="!canClick()"
+                          ></span>
+
+                          <input
+                            class="qty-val form-control"
+                            type="text"
+                            name="quantity"
+                            [value]="item.quantity"
+                            readonly
+                          />
+
+                          <span
+                            class="plus"
+                            (click)="canClick() && add(item)"
+                            [class.disabled]="!canClick()"
+                          ></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="item-cart-info-2">
+                      <p class="body-p2">
+                        {{ item.unitPriceSnapshot | currency: 'EGP' : 'symbol' : '1.0-2' }}
+                      </p>
+                      <a
+                        class="btn-remove-cart"
+                        (click)="$event.preventDefault(); canClick() && removeItem(item)"
+                        [class.disabled]="!canClick()"
+                      ></a>
                     </div>
                   </div>
                 </div>
-                <div class="item-cart-info-2">
-                  <p class="body-p2">{{ 'cart.product.price' | translate }}</p>
-                  <a class="btn-remove-cart" routerLink="/"></a>
-                </div>
-              </div>
-            </div>
+              }
+            }
           </div>
 
           <div class="box-coupon">
             <div class="coupon-left">
-              <input class="form-control input-coupon" type="text"
-                placeholder="{{ 'cart.coupon.placeholder' | translate }}" />
+              <input
+                class="form-control input-coupon"
+                type="text"
+                placeholder="{{ 'cart.coupon.placeholder' | translate }}"
+              />
               <button class="btn btn-border">
                 {{ 'cart.coupon.apply' | translate }}
               </button>
@@ -116,10 +134,7 @@
             <h4 class="box-border-bottom mb-20">
               {{ 'cart.also_like.title' | translate }}
             </h4>
-            <div class="list-items-also-like">
-              <!-- باقي العناصر كما هي بدون تغيير -->
-              <!-- النصوص المتكررة تستخدم نفس مفاتيح الترجمة -->
-            </div>
+            <div class="list-items-also-like"></div>
           </div>
         </div>
 
@@ -131,7 +146,9 @@
                 <h5 class="neutral-medium-dark">
                   {{ 'cart.summary.subtotal' | translate }}
                 </h5>
-                <h5 class="neutral-dark">$59.00</h5>
+                <h5 class="neutral-dark">
+                  {{ totalPrice() | currency: 'EGP' : 'symbol' : '1.0-2' }}
+                </h5>
               </div>
 
               <div class="box-info-cart-inner">
@@ -142,9 +159,11 @@
                   <div class="item-radio">
                     <label>
                       <input type="radio" name="shipping" checked="checked" />
-                      {{ 'cart.summary.flat_rate' | translate }}: $50.00
+                      {{ 'cart.summary.flat_rate' | translate }}:
+                      {{ 0 | currency: 'EGP' : 'symbol' : '1.0-2' }}
                     </label>
-                    <span class="price-ship">$50.00</span>
+                    {{ 'cart.summary.flat_rate' | translate }}:
+                    {{ 0 | currency: 'EGP' : 'symbol' : '1.0-2' }}
                   </div>
                   <div class="item-radio">
                     <label>
@@ -165,7 +184,9 @@
                 <h5 class="neutral-medium-dark">
                   {{ 'cart.summary.total' | translate }}
                 </h5>
-                <h5 class="neutral-dark">$109.00</h5>
+                <h5 class="neutral-dark">
+                  {{ totalPrice() | currency: 'EGP' : 'symbol' : '1.0-2' }}
+                </h5>
               </div>
 
               <div class="box-button-cart">

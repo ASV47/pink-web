@@ -10,6 +10,9 @@ import { ICategoryTreeNode } from '../../../../Core/Models/TreeCategory/icategor
 import { CategoryTreeService } from '../../../../Core/Services/shop/CategoryService/CategoryTreeService';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { IBrand } from '../../../../Core/Models/Shoplift/ibrand';
+import { BrandService } from '../../../../Core/Services/shop/brand/brand-service';
+import { WishListFacadeService } from '../../../../Core/Services/wichlist/wish-list-facade-service';
 
 @Component({
   selector: 'app-shop-left-filter',
@@ -20,14 +23,19 @@ import { RouterLink } from '@angular/router';
 export class ShopLeftFilter implements OnInit, OnDestroy {
   //! Defination
   items: IShopliftItem[] = [];
+  brands: IBrand[] = [];
+
   loading: boolean = false;
   totalRecords: number = 0;
   private apiSub?: Subscription;
   private categorySub?: Subscription;
   private subscription = new Subscription();
+  private brandSub?: Subscription;
 
   categories: ICategoryTreeNode[] = [];
   selectedCategoryIds: number[] = [];
+  selectedBrandIds: number[] = [];
+  customerId = 3;
   expandedCategoryIds = new Set<number>();
 
   // ! initialization
@@ -51,44 +59,81 @@ export class ShopLeftFilter implements OnInit, OnDestroy {
     searchableCloumnsValues: {},
     searchableCloumns: ['Name'],
   };
-
+  brandReq: IDataTableRequest = {
+    draw: 1,
+    start: 0,
+    length: 1000,
+    sortColumnName: 'Name',
+    sortColumnDirection: 'asc',
+    searchValue: '',
+    searchableCloumnsValues: {},
+    searchableCloumns: ['Name'],
+  };
   constructor(
     private shopLifter: ShopliftService,
     private categoryTreeService: CategoryTreeService,
     private language: Language,
+    private brandService: BrandService,
+    public wl: WishListFacadeService,
   ) {}
   //! Life Cycle
   ngOnInit(): void {
     this.loadItem();
     this.loadCategories();
+    this.loadBrands();
+    this.wl.refresh(this.customerId).subscribe();
     const langSub = this.language.lang$.subscribe(() => {
       this.loadItem();
       this.loadCategories();
+      this.loadBrands();
+      this.wl.refresh(this.customerId).subscribe();
     });
 
     this.subscription.add(langSub);
   }
+  // !wishList
+  toggleWish(itemId: number) {
+    console.log('toggleWish fired', itemId);
 
+    this.wl.toggle(this.customerId, itemId);
+  }
+
+  inWish(itemId: number): boolean {
+    return this.wl.hasItem(itemId);
+  }
   // !loading Data ...
   loadItem() {
     this.loading = true;
     this.apiSub?.unsubscribe();
 
-    this.apiSub = this.shopLifter
-      .getDataTablePagenationFromBody(this.IdataTableRequestItems)
-      .subscribe({
-        next: (res) => {
-          this.items = res.data;
-          this.totalRecords = res.recordsFiltered ?? res.recordsTotal;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('خطأ في تحميل البيانات', err);
-          this.loading = false;
-        },
-      });
+    this.apiSub = this.shopLifter.getDataTablePagination(this.IdataTableRequestItems).subscribe({
+      next: (res) => {
+        this.items = res.data ?? [];
+        this.totalRecords = res.recordsFiltered ?? res.recordsTotal ?? 0;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('خطأ في تحميل البيانات', err);
+        this.loading = false;
+      },
+    });
 
     this.subscription.add(this.apiSub);
+  }
+  loadBrands() {
+    this.brandSub?.unsubscribe();
+
+    this.brandSub = this.brandService.getDataTablePagination(this.brandReq).subscribe({
+      next: (res) => {
+        this.brands = res.data ?? [];
+      },
+      error: (err) => {
+        console.error('خطأ في تحميل البراند', err);
+        this.brands = [];
+      },
+    });
+
+    this.subscription.add(this.brandSub);
   }
 
   loadCategories() {
@@ -119,19 +164,21 @@ export class ShopLeftFilter implements OnInit, OnDestroy {
       this.selectedCategoryIds = this.selectedCategoryIds.filter((x) => !idsToApply.includes(x));
     }
 
-    this.IdataTableRequestItems.start = 0;
-
-    if (this.selectedCategoryIds.length === 0) {
-      this.IdataTableRequestItems.searchableCloumnsValues = {};
-      this.IdataTableRequestItems.searchableCloumns = ['Name'];
+    this.applyFilters();
+  }
+  onToggleBrand(id: number, checked: boolean) {
+    if (checked) {
+      if (!this.selectedBrandIds.includes(id)) this.selectedBrandIds.push(id);
     } else {
-      this.IdataTableRequestItems.searchableCloumnsValues = {
-        categoryId: this.selectedCategoryIds.join(','),
-      };
-      this.IdataTableRequestItems.searchableCloumns = ['categoryId'];
+      this.selectedBrandIds = this.selectedBrandIds.filter((x) => x !== id);
     }
 
-    this.loadItem();
+    this.applyFilters();
+  }
+
+  clearBrand() {
+    this.selectedBrandIds = [];
+    this.applyFilters();
   }
 
   toggleExpand(id: number) {
@@ -150,22 +197,20 @@ export class ShopLeftFilter implements OnInit, OnDestroy {
   onSearch(value: string): void {
     this.IdataTableRequestItems.searchValue = value;
     this.IdataTableRequestItems.start = 0;
-    this.loadItem();
+    this.applyFilters();
   }
   // ! Sort asc or desc
   onSort(column: string, direction: 'asc' | 'desc'): void {
     this.IdataTableRequestItems.sortColumnName = column;
     this.IdataTableRequestItems.sortColumnDirection = direction;
     this.IdataTableRequestItems.start = 0;
-    this.loadItem();
+    this.applyFilters();
   }
   clearCategory() {
     this.selectedCategoryIds = [];
-    this.IdataTableRequestItems.searchableCloumnsValues = {};
-    this.IdataTableRequestItems.searchableCloumns = ['Name'];
-    this.IdataTableRequestItems.start = 0;
-    this.loadItem();
+    this.applyFilters();
   }
+
   // ! Paggination
   get pageSize() {
     return this.IdataTableRequestItems.length || 10;
@@ -249,12 +294,32 @@ export class ShopLeftFilter implements OnInit, OnDestroy {
 
   // ! Cleaning Subscriptin
   ngOnDestroy(): void {
-    this.apiSub?.unsubscribe();
-    this.categorySub?.unsubscribe();
     this.subscription.unsubscribe();
   }
 
   // ! Fliter
+  private applyFilters(): void {
+    const values: any = {};
+
+    if (this.selectedCategoryIds.length) {
+      values.categoryId = this.selectedCategoryIds.join(',');
+    }
+
+    if (this.selectedBrandIds.length) {
+      values.brandId = this.selectedBrandIds.join(',');
+    }
+
+    if (Object.keys(values).length === 0) {
+      this.IdataTableRequestItems.searchableCloumnsValues = {};
+      this.IdataTableRequestItems.searchableCloumns = ['Name'];
+    } else {
+      this.IdataTableRequestItems.searchableCloumnsValues = values;
+      this.IdataTableRequestItems.searchableCloumns = Object.keys(values);
+    }
+
+    this.IdataTableRequestItems.start = 0;
+    this.loadItem();
+  }
 
   isFilterOpen = false;
 

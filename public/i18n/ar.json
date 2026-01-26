@@ -77,7 +77,11 @@
       "size": "المقاس:",
       "add_to_cart": "أضف إلى السلة",
       "you_may_like": "قد يعجبك أيضاً",
-      "select_options": "اختر الخيارات"
+      "select_options": "اختر الخيارات",
+
+      "add": "أضف إلى المفضلة",
+      "remove": "إزالة من المفضلة",
+      "added": "تمت الإضافة إلى المفضلة"
     }
   },
   "blog": {
@@ -85,6 +89,23 @@
       "title": "قصصنا",
       "breadcrumb_home": "الرئيسية",
       "breadcrumb_blog": "المدونة"
+    },
+    "details": {
+      "title": "تفاصيل المقالة",
+      "published": "منشور",
+      "draft": "مسودة",
+      "back": "العودة",
+      "copy_link": "نسخ الرابط",
+      "seo": " محركات البحث",
+      "about": "حول",
+      "seo_title": "عنوان SEO",
+      "seo_description": "وصف SEO",
+      "published_status": "الحالة",
+      "cover_image_id": "معرف صورة الغلاف",
+      "definition_id": "معرف التعريف",
+      "general_id": "المعرف العام",
+      "yes": "نعم",
+      "no": "لا"
     },
     "tabs": {
       "all": "الكل",
@@ -197,8 +218,15 @@
     },
     "header": {
       "title": "سلة التسوق",
-      "items_count": "عنصران"
+      "items_count": "عنصر"
     },
+
+    "empty_state": {
+      "title": "سلة التسوق فارغة",
+      "subtitle": "واضح إنك لسه ما ضفتش أي منتجات. جرّب تتصفح المنتجات وابدأ التسوق.",
+      "cta": "ابدأ التسوق"
+    },
+
     "product": {
       "name": "قميص Ball Crew",
       "color": "اللون",

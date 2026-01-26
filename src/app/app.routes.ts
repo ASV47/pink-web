@@ -20,7 +20,11 @@ export const routes: Routes = [
     path: 'blog',
     loadComponent: () => import('./Components/pages/blog-grid/blog-grid').then((m) => m.BlogGrid),
   },
-
+  {
+    path: 'blog/:eid/:slug',
+    loadComponent: () =>
+      import('./Components/pages/blog-grid/blog-detials/blog-detials').then((m) => m.BlogDetials),
+  },
   {
     path: 'product',
     loadComponent: () =>
@@ -35,14 +39,14 @@ export const routes: Routes = [
     path: 'customerservice',
     loadComponent: () =>
       import('./Components/pages/customeService/customer-service/custome-service').then(
-        (m) => m.CustomeService
+        (m) => m.CustomeService,
       ),
   },
   {
     path: 'referAFriend',
     loadComponent: () =>
       import('./Components/pages/customeService/refer-afriend/refer-afriend').then(
-        (m) => m.ReferAFriend
+        (m) => m.ReferAFriend,
       ),
   },
   {
@@ -71,7 +75,7 @@ export const routes: Routes = [
     path: 'shopliftfilter',
     loadComponent: () =>
       import('./Components/pages/Shop/shop-left-filter/shop-left-filter').then(
-        (m) => m.ShopLeftFilter
+        (m) => m.ShopLeftFilter,
       ),
   },
 

@@ -42,12 +42,12 @@
                           />
                           <span class="text-small">
                             {{ cat.name }}
-                            <span class="neutral-medium">({{ cat.childs.length }})</span>
+                            <span class="neutral-medium">({{ cat.childs?.length ?? 0 }})</span>
                           </span>
                           <span class="checkmark"></span>
                         </label>
 
-                        @if (cat.childs.length) {
+                        @if (cat.childs?.length) {
                           <button
                             type="button"
                             class="arrow-btn arrow-down"
@@ -59,9 +59,9 @@
                       </div>
 
                       <!-- Level 2 -->
-                      @if (cat.childs.length) {
+                      @if (cat.childs?.length) {
                         <ul class="subcats" [class.open]="isExpanded(cat.id)">
-                          @for (child of cat.childs; track child.id) {
+                          @for (child of cat.childs ?? []; track child.id) {
                             <li class="tree-item">
                               <div class="tree-row">
                                 <label class="cb-container tree-label">
@@ -74,12 +74,14 @@
                                   />
                                   <span class="text-small">
                                     {{ child.name }}
-                                    <span class="neutral-medium">({{ child.childs.length }})</span>
+                                    <span class="neutral-medium"
+                                      >({{ child.childs?.length ?? 0 }})</span
+                                    >
                                   </span>
                                   <span class="checkmark"></span>
                                 </label>
 
-                                @if (child.childs.length) {
+                                @if (child.childs?.length) {
                                   <button
                                     type="button"
                                     class="arrow-btn arrow-down"
@@ -91,9 +93,9 @@
                               </div>
 
                               <!-- Level 3 -->
-                              @if (child.childs.length) {
+                              @if (child.childs?.length) {
                                 <ul class="subcats" [class.open]="isExpanded(child.id)">
-                                  @for (g of child.childs; track g.id) {
+                                  @for (g of child.childs ?? []; track g.id) {
                                     <li class="tree-item">
                                       <div class="tree-row">
                                         <label class="cb-container tree-label">
@@ -108,7 +110,7 @@
                                           <span class="checkmark"></span>
                                         </label>
 
-                                        @if (g.childs.length) {
+                                        @if (g.childs?.length) {
                                           <button
                                             type="button"
                                             class="arrow-btn arrow-down"
@@ -185,35 +187,32 @@
               <h6 class="item-collapse">{{ 'shop.filters.brand' | translate }}</h6>
               <div class="box-collapse scrollFilter">
                 <ul class="list-filter-checkbox">
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">Adidas</span>
-                      <span class="checkmark"></span>
-                    </label>
-                  </li>
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">Chloe</span>
-                      <span class="checkmark"></span>
-                    </label>
-                  </li>
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">Kendo</span>
-                      <span class="checkmark"></span>
-                    </label>
-                  </li>
-                  <li>
-                    <label class="cb-container">
-                      <input type="checkbox" />
-                      <span class="text-small">Nike</span>
-                      <span class="checkmark"></span>
-                    </label>
-                  </li>
+                  @for (b of brands; track b.id) {
+                    <li>
+                      <label class="cb-container">
+                        <input
+                          type="checkbox"
+                          [checked]="selectedBrandIds.includes(b.id)"
+                          (change)="onToggleBrand(b.id, $any($event.target).checked)"
+                        />
+                        <span class="text-small">{{ b.name }}</span>
+                        <span class="checkmark"></span>
+                      </label>
+                    </li>
+                  }
+                  @if (!brands.length) {
+                    <li class="text-small neutral-medium">No brands</li>
+                  }
                 </ul>
+                @if (selectedBrandIds.length) {
+                  <a
+                    class="clear-filter link-underline"
+                    href="#"
+                    (click)="$event.preventDefault(); clearBrand()"
+                  >
+                    Clear brands
+                  </a>
+                }
               </div>
             </div>
 
@@ -340,11 +339,7 @@
                 <div class="cardProduct wow fadeInUp">
                   <div class="cardImage">
                     <a href="#">
-                      <img
-                        class="imageMain"
-                        [src]="item.imagePath || 'https://placehold.co/400'"
-                        alt="guza"
-                      />
+                      <img class="imageMain" src="/imgs/page/homepage1/product1.png" alt="guza" />
                       <img
                         class="imageHover"
                         src="/imgs/page/homepage1/product1-hover.png"
@@ -352,17 +347,28 @@
                       />
                     </a>
                     <div class="button-select">
-                      <a href="#">{{ item.name }}</a>
+                      <a
+                        (click)="$event.preventDefault(); wl.canClick() && toggleWish(item.id)"
+                        [class.disabled]="!wl.canClick()"
+                        [attr.aria-disabled]="!wl.canClick()"
+                      >
+                        {{
+                          inWish(item.id)
+                            ? ('popup.wishlist.remove' | translate)
+                            : ('popup.wishlist.add' | translate)
+                        }}
+                      </a>
                     </div>
+
                     <div class="box-quick-button"></div>
                   </div>
                   <div class="cardInfo">
                     <a href="#">
                       <h6 class="text-16-medium cardTitle">
-                        {{ item.name }}
+                        {{ item.itemName }}
                       </h6>
                     </a>
-                    <p class="body-p2 cardDesc">$16.00</p>
+                    <p class="body-p2 cardDesc">{{ item.onlinePrice }}</p>
                     <div class="box-colors">
                       <div class="item-color color-1"></div>
                       <div class="item-color color-2"></div>

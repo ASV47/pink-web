@@ -1,12 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../Environment/environment';
-import { IDataTableRequest } from '../../Models/Shoplift/IDataTableRequest';
-import { Observable } from 'rxjs';
-import { IDataTableResponse } from '../../Models/Shoplift/IData-table-response';
 import { IBlog } from '../../Models/blog/iblog';
 import { BaseService } from '../baseServices/base-service';
-
 @Injectable({
   providedIn: 'root',
 })

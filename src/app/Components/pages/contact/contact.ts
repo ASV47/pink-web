@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactMessageApiService } from '../../../Core/Services/ContactUs/contact-message-api-service';
 import { IContactMessageCreateRequest } from '../../../Core/Models/ContactUs/icontact-message-create-request';
+import { IWorkingHour } from '../../../Core/Models/ContactUs/IWorkingHour';
 
 @Component({
   selector: 'app-contact',
@@ -22,6 +23,10 @@ export class Contact implements OnInit {
   sending = signal(false);
   sendSuccessMsg = signal<string | null>(null);
   sendErrorMsg = signal<string | null>(null);
+  // ! Working Hours
+  workingHours = signal<IWorkingHour[]>([]);
+  workingHoursLoading = signal(false);
+  workingHoursErr = signal<string | null>(null);
 
   private draw = 1;
   start = signal(0);
@@ -40,7 +45,7 @@ export class Contact implements OnInit {
 
   loading = signal(false);
   err = signal<string | null>(null);
-
+  activeWorkingHours = computed(() => this.workingHours().filter((w) => w.isActive));
   pageNumber = computed(() => Math.floor(this.start() / this.length()) + 1);
   canPrev = computed(() => this.start() > 0);
   canNext = computed(() => this.start() + this.length() < this.recordsFiltered());
@@ -64,7 +69,12 @@ export class Contact implements OnInit {
   }
 
   loadContact() {
+    this.workingHours.set([]);
+    this.workingHoursErr.set(null);
+    this.workingHoursLoading.set(false);
     this.loading.set(true);
+    // !working Hour
+    this.workingHoursErr.set(null);
     this.err.set(null);
     const request: IDataTableRequest = {
       draw: this.draw++,
@@ -78,18 +88,57 @@ export class Contact implements OnInit {
     };
     this.contactInfoApi.getContactInfo(request).subscribe({
       next: (res: IDataTableResponse<IContactInfo>) => {
+        const data = res.data ?? [];
+
         this.rows.set(res.data ?? []);
         this.recordsTotal.set(res.recordsTotal ?? 0);
         this.recordsFiltered.set(res.recordsFiltered ?? 0);
         this.loading.set(false);
+        const first = data[0];
+        if (first?.id) {
+          this.loadWorkingHours(first.id);
+        }
         console.log(res);
       },
       error: (err) => {
         this.loading.set(false);
         this.err.set(err?.message ?? 'Something went wrong');
+        this.workingHoursLoading.set(false);
+        this.workingHours.set([]);
       },
     });
   }
+  loadWorkingHours(contactInfoId: number) {
+    this.workingHoursLoading.set(true);
+    this.workingHoursErr.set(null);
+
+    const request: IDataTableRequest = {
+      draw: 1,
+      start: 0,
+      length: 50,
+      sortColumnName: 'dayOfWeek',
+      sortColumnDirection: 'asc',
+      searchValue: '',
+      searchableCloumnsValues: { contactInfoId: String(contactInfoId) },
+      searchableCloumns: ['contactInfoId'],
+    };
+
+    this.contactInfoApi.getWorkingHours(request).subscribe({
+      next: (res) => {
+        this.workingHoursLoading.set(false);
+        this.workingHours.set(res.data ?? []);
+        console.log('From working Hours: ', res);
+      },
+      error: (err) => {
+        this.workingHoursLoading.set(false);
+        this.workingHours.set([]);
+        this.workingHoursErr.set(
+          err?.error?.message ?? err?.message ?? 'Failed to load working hours',
+        );
+      },
+    });
+  }
+
   submitMessage(): void {
     this.sendSuccessMsg.set(null);
     this.sendErrorMsg.set(null);

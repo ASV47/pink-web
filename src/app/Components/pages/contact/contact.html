@@ -62,9 +62,19 @@
           }
 
           <h4 class="mb-15">{{ 'contact.info.hours_title' | translate }}</h4>
-          <p class="body-p2 neutral-medium-dark mb-45">
-            {{ 'contact.info.hours' | translate }}
-          </p>
+
+          @if (activeWorkingHours().length) {
+            <div class="mb-45">
+              @for (w of activeWorkingHours(); track w.id) {
+                <p class="body-p2 neutral-medium-dark mb-10">
+                  <strong>{{ w.dayOfWeek }}</strong
+                  >: {{ w.openTime }} - {{ w.closeTime }}
+                </p>
+              }
+            </div>
+          } @else {
+            <p class="body-p2 neutral-medium-dark mb-45">No working hours available.</p>
+          }
 
           @if (mainContact(); as c) {
             <div class="socials mt-55 justify-content-start">

@@ -77,7 +77,10 @@
       "size": "Size:",
       "add_to_cart": "Add to cart",
       "you_may_like": "You May Also Like",
-      "select_options": "Select Options"
+      "select_options": "Select Options",
+      "add": "Add to wishlist",
+      "remove": "Remove from wishlist",
+      "added": "Added to wishlist"
     }
   },
   "about": {
@@ -142,6 +145,23 @@
       "lifestyle": "Lifestyle",
       "inspiration": "Inspiration",
       "photography": "Photography"
+    },
+    "details": {
+      "title": "Blog Details",
+      "published": "Published",
+      "draft": "Draft",
+      "back": "Back to Blog",
+      "copy_link": "Copy Link",
+      "seo": "SEO Information",
+      "about": "About",
+      "seo_title": "SEO Title",
+      "seo_description": "SEO Description",
+      "published_status": "Published",
+      "cover_image_id": "Cover Image Id",
+      "definition_id": "Definition Id",
+      "general_id": "General Id",
+      "yes": "Yes",
+      "no": "No"
     },
     "card": {
       "tag_fashion": "Fashion",
@@ -227,6 +247,11 @@
       "checkout": "Proceed To Checkout",
       "free_shipping": "Free shipping on orders over $200.00",
       "continue_shopping": "Continue Shopping"
+    },
+    "empty_state": {
+      "title": "Your cart is empty",
+      "subtitle": "Looks like you haven’t added anything yet.",
+      "cta": "Start shopping"
     }
   },
   "checkout": {

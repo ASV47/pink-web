@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 // ! imports
