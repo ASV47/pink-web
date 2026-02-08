@@ -1,8 +1,8 @@
-name: Deploy Frontend to Elastic Beanstalk HiPink
+name: Deploy Frontend to Elastic Beanstalk (HiPink)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -19,9 +19,20 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Verify required secrets exist
+        shell: bash
+        run: |
+          set -e
+          [ -n "${{ secrets.AWS_ROLE_ARN }}" ] || (echo "❌ Missing secret: AWS_ROLE_ARN" && exit 1)
+          [ -n "${{ secrets.DEPLOY_BUCKET }}" ] || (echo "❌ Missing secret: DEPLOY_BUCKET" && exit 1)
+          [ -n "${{ secrets.EB_APP_NAME }}" ] || (echo "❌ Missing secret: EB_APP_NAME" && exit 1)
+          [ -n "${{ secrets.EB_ENV_NAME }}" ] || (echo "❌ Missing secret: EB_ENV_NAME" && exit 1)
+          echo "✅ Secrets are present"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,6 +41,7 @@ jobs:
           cache: "npm"
 
       - name: Install + Build
+        shell: bash
         run: |
           set -e
           npm ci
@@ -41,9 +53,8 @@ jobs:
         run: |
           set -e
 
-          # Try common outputs
           if [ -d "dist" ]; then
-            # Angular: dist/<appName>
+            # Angular غالباً: dist/<appName>
             INNER=$(find dist -maxdepth 1 -type d ! -path dist | head -n 1 || true)
             if [ -n "$INNER" ]; then
               echo "dir=$INNER" >> $GITHUB_OUTPUT
@@ -60,19 +71,19 @@ jobs:
             exit 1
           fi
 
-          echo "✅ BUILD_DIR=${{ steps.builddir.outputs.dir }}"
+          echo "✅ BUILD_DIR=$(cat $GITHUB_OUTPUT | cut -d= -f2)"
 
-      - name: Prepare EB bundle (Node server serves SPA)
+      - name: Prepare EB bundle (Express serves SPA)
         shell: bash
         run: |
           set -e
-          rm -rf deploy
+          rm -rf deploy app.zip
           mkdir -p deploy/dist
 
           # Copy built files into deploy/dist
           cp -R "${{ steps.builddir.outputs.dir }}/." deploy/dist/
 
-          # Minimal runtime server for SPA (Express)
+          # Node server to serve SPA + fallback to index.html
           cat > deploy/server.js <<'JS'
           const express = require('express');
           const path = require('path');
@@ -90,7 +101,7 @@ jobs:
           });
 
           app.listen(port, '0.0.0.0', () => {
-            console.log(`HiPink Frontend running on http://0.0.0.0:${port}`);
+            console.log(`Frontend running on http://0.0.0.0:${port}`);
           });
           JS
 
@@ -111,44 +122,14 @@ jobs:
           }
           JSON
 
-          cd deploy
-          zip -r ../app.zip .
-          cd ..
-          
-      - name: Debug OIDC (print aud/sub)
-        shell: bash
-        run: |
-          set -e
-          echo "GITHUB_REPOSITORY=$GITHUB_REPOSITORY"
-          echo "GITHUB_REF=$GITHUB_REF"
-          echo "GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME"
+          (cd deploy && zip -r ../app.zip .)
 
-          TOKEN_JSON=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com")
-
-          TOKEN=$(python - <<'PY'
-          import json,sys
-          print(json.load(sys.stdin)["value"])
-          PY
-          <<< "$TOKEN_JSON")
-
-          python - <<'PY'
-          import os, json, base64
-          t=os.environ["TOKEN"]
-          p=t.split(".")[1]
-          p += "=" * (-len(p) % 4)
-          print(json.dumps(json.loads(base64.urlsafe_b64decode(p)), indent=2))
-          PY
-          env:
-          TOKEN: ${{ steps.nothing.outputs.nothing }}                                     
-      
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: eu-central-1
+          aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
-
 
       - name: Upload + Deploy to Elastic Beanstalk
         shell: bash
@@ -168,4 +149,3 @@ jobs:
           aws elasticbeanstalk update-environment \
             --environment-name "${{ secrets.EB_ENV_NAME }}" \
             --version-label "${VERSION}"
-        
