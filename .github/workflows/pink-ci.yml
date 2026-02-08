@@ -26,7 +26,7 @@ jobs:
         run: npm run build -- --configuration production
 
       - name: Zip build
-         run: |
+        run: |
          cd dist/pink-web
          zip -r ../../../app.zip .
 
