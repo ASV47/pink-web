@@ -121,6 +121,9 @@ jobs:
             }
           }
           JSON
+          echo "web: node server.js" > deploy/Procfile
+          test -f deploy/dist/index.html || (echo "❌ index.html not found" && exit 1)
+          unzip -l app.zip | head -n 60
 
           (cd deploy && zip -r ../app.zip .)
 
