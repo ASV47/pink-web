@@ -44,7 +44,7 @@ variable "env_name" {
 # لازم تكون owner/repo
 variable "github_repo" {
   type    = string
-  default = "Codeikoo/HiPink-ClientSide"
+  default = "ASV47/pink-web"
 }
 
 variable "github_branch" {
