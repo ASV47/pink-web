@@ -29,7 +29,6 @@ jobs:
         run: |
           set -e
           [ -n "${{ secrets.AWS_ROLE_ARN }}" ] || (echo "❌ Missing secret: AWS_ROLE_ARN" && exit 1)
-          [ -n "${{ secrets.DEPLOY_BUCKET }}" ] || (echo "❌ Missing secret: DEPLOY_BUCKET" && exit 1)
           [ -n "${{ secrets.EB_APP_NAME }}" ] || (echo "❌ Missing secret: EB_APP_NAME" && exit 1)
           [ -n "${{ secrets.EB_ENV_NAME }}" ] || (echo "❌ Missing secret: EB_ENV_NAME" && exit 1)
           echo "✅ Secrets are present"
@@ -67,9 +66,9 @@ jobs:
           if [ -z "$INDEX_PATH" ]; then
             echo "❌ index.html not found in dist/build/out."
             ls -la
-            [ -d dist ] && find dist -maxdepth 5 -type f | head -n 150 || true
-            [ -d build ] && find build -maxdepth 5 -type f | head -n 150 || true
-            [ -d out ] && find out -maxdepth 5 -type f | head -n 150 || true
+            [ -d dist ] && find dist -maxdepth 6 -type f | head -n 200 || true
+            [ -d build ] && find build -maxdepth 6 -type f | head -n 200 || true
+            [ -d out ] && find out -maxdepth 6 -type f | head -n 200 || true
             exit 1
           fi
 
@@ -85,7 +84,7 @@ jobs:
           mkdir -p deploy/dist
 
           cp -R "${{ steps.outdir.outputs.dir }}/." deploy/dist/
-          test -f deploy/dist/index.html || (echo "❌ deploy/dist/index.html missing after copy" && ls -la deploy/dist && exit 1)
+          test -f deploy/dist/index.html || (echo "❌ deploy/dist/index.html missing" && ls -la deploy/dist && exit 1)
 
           cat > deploy/server.js <<'JS'
           const express = require('express');
@@ -97,14 +96,9 @@ jobs:
 
           app.get('/health', (req, res) => res.status(200).send('OK'));
           app.use(express.static(distDir));
+          app.get('*', (req, res) => res.sendFile(path.join(distDir, 'index.html')));
 
-          app.get('*', (req, res) => {
-            res.sendFile(path.join(distDir, 'index.html'));
-          });
-
-          app.listen(port, '0.0.0.0', () => {
-            console.log(`Frontend running on http://0.0.0.0:${port}`);
-          });
+          app.listen(port, '0.0.0.0', () => console.log(`Frontend on :${port}`));
           JS
 
           cat > deploy/package.json <<'JSON'
@@ -122,8 +116,7 @@ jobs:
           echo "web: node server.js" > deploy/Procfile
 
           (cd deploy && zip -r ../app.zip .)
-
-          echo "✅ ZIP content preview:"
+          echo "✅ ZIP preview:"
           unzip -l app.zip | head -n 80
 
       - name: Configure AWS credentials (OIDC)
@@ -133,38 +126,40 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
 
-      - name: Upload + Deploy to Elastic Beanstalk
+      - name: Deploy using EB default bucket
         shell: bash
         run: |
           set -e
-
           VERSION="${GITHUB_SHA}"
           KEY="releases/${VERSION}.zip"
 
-          echo "Uploading to s3://${{ secrets.DEPLOY_BUCKET }}/${KEY}"
-          aws s3 cp app.zip "s3://${{ secrets.DEPLOY_BUCKET }}/${KEY}"
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          EB_BUCKET="elasticbeanstalk-${AWS_REGION}-${ACCOUNT_ID}"
 
-          echo "Create application version: ${VERSION}"
+          echo "EB_BUCKET=${EB_BUCKET}"
+          aws s3api head-bucket --bucket "$EB_BUCKET" 2>/dev/null || \
+            aws s3api create-bucket --bucket "$EB_BUCKET" --region "$AWS_REGION" --create-bucket-configuration LocationConstraint="$AWS_REGION"
+
+          aws s3 cp app.zip "s3://${EB_BUCKET}/${KEY}"
+
           aws elasticbeanstalk create-application-version \
             --application-name "${{ secrets.EB_APP_NAME }}" \
             --version-label "${VERSION}" \
-            --source-bundle S3Bucket="${{ secrets.DEPLOY_BUCKET }}",S3Key="${KEY}"
+            --source-bundle S3Bucket="${EB_BUCKET}",S3Key="${KEY}"
 
-          echo "Update environment to version: ${VERSION}"
           aws elasticbeanstalk update-environment \
             --environment-name "${{ secrets.EB_ENV_NAME }}" \
             --version-label "${VERSION}"
 
-          echo "Waiting for environment updated..."
           aws elasticbeanstalk wait environment-updated \
             --environment-names "${{ secrets.EB_ENV_NAME }}"
 
-          echo "✅ Current environment status:"
+          echo "✅ Environment now:"
           aws elasticbeanstalk describe-environments \
             --environment-names "${{ secrets.EB_ENV_NAME }}" \
             --region "${AWS_REGION}" \
             --query "Environments[0].[ApplicationName,EnvironmentName,VersionLabel,Health,Status,CNAME]" \
             --output text
 
-          echo "✅ Health endpoint:"
+          echo "✅ Health:"
           curl -i "http://${{ secrets.EB_ENV_NAME }}.eu-central-1.elasticbeanstalk.com/health" || true
