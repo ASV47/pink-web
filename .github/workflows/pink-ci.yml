@@ -1,0 +1,142 @@
+name: Deploy Frontend to Elastic Beanstalk (HiPink)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: hipink-frontend-eb
+  cancel-in-progress: true
+
+env:
+  AWS_REGION: eu-central-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install + Build
+        run: |
+          set -e
+          npm ci
+          npm run build
+
+      - name: Detect build directory
+        id: builddir
+        shell: bash
+        run: |
+          set -e
+
+          # Try common outputs
+          if [ -d "dist" ]; then
+            # Angular: dist/<appName>
+            INNER=$(find dist -maxdepth 1 -type d ! -path dist | head -n 1 || true)
+            if [ -n "$INNER" ]; then
+              echo "dir=$INNER" >> $GITHUB_OUTPUT
+            else
+              echo "dir=dist" >> $GITHUB_OUTPUT
+            fi
+          elif [ -d "build" ]; then
+            echo "dir=build" >> $GITHUB_OUTPUT
+          elif [ -d "out" ]; then
+            echo "dir=out" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Can't detect build output folder (dist/build/out)."
+            ls -la
+            exit 1
+          fi
+
+          echo "✅ BUILD_DIR=${{ steps.builddir.outputs.dir }}"
+
+      - name: Prepare EB bundle (Node server serves SPA)
+        shell: bash
+        run: |
+          set -e
+          rm -rf deploy
+          mkdir -p deploy/dist
+
+          # Copy built files into deploy/dist
+          cp -R "${{ steps.builddir.outputs.dir }}/." deploy/dist/
+
+          # Minimal runtime server for SPA (Express)
+          cat > deploy/server.js <<'JS'
+          const express = require('express');
+          const path = require('path');
+
+          const app = express();
+          const port = process.env.PORT || 8080;
+          const distDir = path.join(__dirname, 'dist');
+
+          app.get('/health', (req, res) => res.status(200).send('OK'));
+          app.use(express.static(distDir));
+
+          // SPA fallback
+          app.get('*', (req, res) => {
+            res.sendFile(path.join(distDir, 'index.html'));
+          });
+
+          app.listen(port, '0.0.0.0', () => {
+            console.log(`HiPink Frontend running on http://0.0.0.0:${port}`);
+          });
+          JS
+
+          # Minimal package.json for EB runtime
+          cat > deploy/package.json <<'JSON'
+          {
+            "name": "hipink-frontend-eb",
+            "private": true,
+            "version": "1.0.0",
+            "main": "server.js",
+            "engines": { "node": "20.x" },
+            "scripts": {
+              "start": "node server.js"
+            },
+            "dependencies": {
+              "express": "^4.19.2"
+            }
+          }
+          JSON
+
+          cd deploy
+          zip -r ../app.zip .
+          cd ..
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: Upload + Deploy to Elastic Beanstalk
+        shell: bash
+        run: |
+          set -e
+
+          VERSION="${GITHUB_SHA}"
+          KEY="releases/${VERSION}.zip"
+
+          aws s3 cp app.zip "s3://${{ secrets.DEPLOY_BUCKET }}/${KEY}"
+
+          aws elasticbeanstalk create-application-version \
+            --application-name "${{ secrets.EB_APP_NAME }}" \
+            --version-label "${VERSION}" \
+            --source-bundle S3Bucket="${{ secrets.DEPLOY_BUCKET }}",S3Key="${KEY}"
+
+          aws elasticbeanstalk update-environment \
+            --environment-name "${{ secrets.EB_ENV_NAME }}" \
+            --version-label "${VERSION}"
