@@ -27,7 +27,10 @@ jobs:
 
       - name: Zip build
         run: |
-          # المسار الصحيح بناءً على ملف angular.json وسجلات التشغيل لديك
+          # 1. نسخ ملف الـ Procfile إلى داخل مجلد المتصفح قبل الضغط
+          cp Procfile dist/project1/browser/
+          
+          # 2. الدخول للمجلد والضغط
           cd dist/project1/browser
           zip -r ../../../app.zip .
 
