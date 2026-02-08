@@ -1,4 +1,4 @@
-name: Deploy Frontend to Elastic Beanstalk (HiPink)
+name: Deploy Frontend to Elastic Beanstalk HiPink
 
 on:
   push:
