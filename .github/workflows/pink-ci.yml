@@ -27,7 +27,7 @@ jobs:
 
       - name: Zip build
         run: |
-         cd /src/index.html
+         cd dist/pink-web
          zip -r ../../../app.zip .
 
 
