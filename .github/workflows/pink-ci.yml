@@ -26,10 +26,10 @@ jobs:
         run: npm run build -- --configuration production
 
       - name: Zip build
-        run: |
-          PROJECT_NAME=$(node -e "console.log(require('./angular.json').defaultProject)")
-          cd dist/$PROJECT_NAME
-          zip -r ../../../app.zip .
+         run: |
+         cd dist/pink-web
+         zip -r ../../../app.zip .
+
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
