@@ -27,8 +27,8 @@ jobs:
 
       - - name: Zip build
           run: |
-          ls -R dist/  # هذا السطر سيطبع لك الهيكل في حال فشل الأمر لتعرف المسار الصحيح
-          cd dist/pink-web/browser && zip -r ../../../app.zip .
+           ls -R dist/  # هذا السطر سيطبع لك الهيكل في حال فشل الأمر لتعرف المسار الصحيح
+           cd dist/pink-web/browser && zip -r ../../../app.zip .
 
 
       - name: Configure AWS
