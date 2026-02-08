@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "project1": {
+    "project1": {                                                                     
       "projectType": "application",
       "schematics": {},
       "root": "",
