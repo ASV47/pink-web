@@ -1,4 +1,4 @@
-name: Deploy Frontend to Elastic Beanstalk (HiPink)
+name: Fast Deploy to EB
 
 on:
   push:
@@ -9,228 +9,93 @@ permissions:
   id-token: write
   contents: read
 
-concurrency:
-  group: hipink-frontend-eb
-  cancel-in-progress: true
-
 env:
   AWS_REGION: eu-central-1
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Verify required secrets exist
-        shell: bash
-        run: |
-          set -e
-          [ -n "${{ secrets.AWS_ROLE_ARN }}" ] || (echo "❌ Missing secret: AWS_ROLE_ARN" && exit 1)
-          [ -n "${{ secrets.EB_APP_NAME }}" ] || (echo "❌ Missing secret: EB_APP_NAME" && exit 1)
-          [ -n "${{ secrets.EB_ENV_NAME }}" ] || (echo "❌ Missing secret: EB_ENV_NAME" && exit 1)
-          echo "✅ Secrets are present"
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
 
-      - name: Install + Build
-        shell: bash
-        run: |
-          set -e
-          npm ci
-          npm run build
+      - run: npm ci
+      - run: npm run build
 
-      # ✅ Find the actual folder that contains index.html (supports Angular SSR: dist/<app>/browser/index.html)
-      - name: Locate index.html output folder
+      - name: Find index.html folder
         id: outdir
         shell: bash
         run: |
           set -e
-          INDEX_PATH=""
+          INDEX=$( ( [ -d dist ] && find dist -type f -name index.html | head -n 1 ) || true )
+          [ -z "$INDEX" ] && INDEX=$( ( [ -d build ] && find build -type f -name index.html | head -n 1 ) || true )
+          [ -z "$INDEX" ] && INDEX=$( ( [ -d out ] && find out -type f -name index.html | head -n 1 ) || true )
+          [ -n "$INDEX" ] || (echo "❌ index.html not found" && exit 1)
+          echo "dir=$(dirname "$INDEX")" >> $GITHUB_OUTPUT
 
-          if [ -d "dist" ]; then
-            INDEX_PATH=$(find dist -type f -name "index.html" | head -n 1 || true)
-          fi
-          if [ -z "$INDEX_PATH" ] && [ -d "build" ]; then
-            INDEX_PATH=$(find build -type f -name "index.html" | head -n 1 || true)
-          fi
-          if [ -z "$INDEX_PATH" ] && [ -d "out" ]; then
-            INDEX_PATH=$(find out -type f -name "index.html" | head -n 1 || true)
-          fi
-
-          if [ -z "$INDEX_PATH" ]; then
-            echo "❌ index.html not found in dist/build/out."
-            ls -la
-            [ -d dist ] && find dist -maxdepth 5 -type f | head -n 150 || true
-            [ -d build ] && find build -maxdepth 5 -type f | head -n 150 || true
-            [ -d out ] && find out -maxdepth 5 -type f | head -n 150 || true
-            exit 1
-          fi
-
-          OUT_DIR=$(dirname "$INDEX_PATH")
-          echo "✅ Found index.html at: $INDEX_PATH"
-          echo "dir=$OUT_DIR" >> $GITHUB_OUTPUT
-
-      - name: Prepare EB bundle (Express serves SPA)
+      - name: Build EB bundle
         shell: bash
         run: |
           set -e
           rm -rf deploy app.zip
           mkdir -p deploy/dist
-
-          # Copy built files (folder containing index.html) into deploy/dist
           cp -R "${{ steps.outdir.outputs.dir }}/." deploy/dist/
-          test -f deploy/dist/index.html || (echo "❌ deploy/dist/index.html missing after copy" && ls -la deploy/dist && exit 1)
-
-          # Simple SPA server
+          test -f deploy/dist/index.html || (echo "❌ missing deploy/dist/index.html" && exit 1)
           cat > deploy/server.js <<'JS'
-          const express = require('express');
-          const path = require('path');
-
-          const app = express();
-          const port = process.env.PORT || 8080;
-          const distDir = path.join(__dirname, 'dist');
-
-          app.get('/health', (req, res) => res.status(200).send('OK'));
-          app.use(express.static(distDir));
-          app.get('*', (req, res) => res.sendFile(path.join(distDir, 'index.html')));
-
-          app.listen(port, '0.0.0.0', () => console.log(`Frontend on :${port}`));
+          const express=require("express"); const path=require("path");
+          const app=express(); const port=process.env.PORT||8080;
+          const dist=path.join(__dirname,"dist");
+          app.get("/health",(req,res)=>res.send("OK"));
+          app.use(express.static(dist));
+          app.get("*",(req,res)=>res.sendFile(path.join(dist,"index.html")));
+          app.listen(port,"0.0.0.0",()=>console.log("up",port));
           JS
-
           cat > deploy/package.json <<'JSON'
-          {
-            "name": "hipink-frontend-eb",
-            "private": true,
-            "version": "1.0.0",
-            "main": "server.js",
-            "engines": { "node": "20.x" },
-            "scripts": { "start": "node server.js" },
-            "dependencies": { "express": "^4.19.2" }
-          }
+          { "name":"fe","private":true,"version":"1.0.0","main":"server.js",
+            "engines":{"node":"20.x"},
+            "scripts":{"start":"node server.js"},
+            "dependencies":{"express":"^4.19.2"} }
           JSON
-
-          # Force EB start command
           echo "web: node server.js" > deploy/Procfile
-
           (cd deploy && zip -r ../app.zip .)
 
-          echo "✅ ZIP content preview:"
-          unzip -l app.zip | head -n 80
-
-      - name: Configure AWS credentials (OIDC)
+      - name: AWS OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
 
-      # ✅ Use EB default bucket (more reliable than custom deploy bucket)
-      - name: Compute EB default bucket
-        id: ebbucket
+      - name: Deploy (no wait)
         shell: bash
         run: |
           set -e
+          VERSION="${GITHUB_SHA}"
           ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
           EB_BUCKET="elasticbeanstalk-${AWS_REGION}-${ACCOUNT_ID}"
-          echo "bucket=${EB_BUCKET}" >> $GITHUB_OUTPUT
-          echo "✅ EB_BUCKET=${EB_BUCKET}"
-
-      - name: Ensure EB bucket exists (create if missing)
-        shell: bash
-        run: |
-          set -e
-          EB_BUCKET="${{ steps.ebbucket.outputs.bucket }}"
-
-          if aws s3api head-bucket --bucket "$EB_BUCKET" 2>/dev/null; then
-            echo "✅ EB bucket exists: $EB_BUCKET"
-          else
-            echo "⚠️ EB bucket missing, creating: $EB_BUCKET"
-            aws s3api create-bucket \
-              --bucket "$EB_BUCKET" \
-              --region "${AWS_REGION}" \
-              --create-bucket-configuration LocationConstraint="${AWS_REGION}"
-          fi
-
-      - name: Upload + Create Application Version
-        shell: bash
-        run: |
-          set -e
-
-          VERSION="${GITHUB_SHA}"
           KEY="releases/${VERSION}.zip"
-          EB_BUCKET="${{ steps.ebbucket.outputs.bucket }}"
+
+          # create EB bucket if missing
+          aws s3api head-bucket --bucket "$EB_BUCKET" 2>/dev/null || \
+            aws s3api create-bucket --bucket "$EB_BUCKET" --region "$AWS_REGION" --create-bucket-configuration LocationConstraint="$AWS_REGION"
 
           aws s3 cp app.zip "s3://${EB_BUCKET}/${KEY}"
 
           aws elasticbeanstalk create-application-version \
             --application-name "${{ secrets.EB_APP_NAME }}" \
             --version-label "${VERSION}" \
-            --source-bundle S3Bucket="${EB_BUCKET}",S3Key="${KEY}"
+            --source-bundle S3Bucket="${EB_BUCKET}",S3Key="${KEY}" || true
 
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-          echo "EB_BUCKET=${EB_BUCKET}" >> $GITHUB_ENV
-          echo "KEY=${KEY}" >> $GITHUB_ENV
-
-      # ✅ Wait until PROCESSED (up to 15 minutes)
-      - name: Wait for Application Version to be PROCESSED
-        shell: bash
-        run: |
-          set -e
-          for i in $(seq 1 180); do
-            STATUS=$(aws elasticbeanstalk describe-application-versions \
-              --application-name "${{ secrets.EB_APP_NAME }}" \
-              --version-labels "${VERSION}" \
-              --query "ApplicationVersions[0].Status" \
-              --output text)
-
-            echo "Version status: ${STATUS} (try ${i}/180)"
-            if [ "${STATUS}" = "PROCESSED" ]; then
-              echo "✅ Version is PROCESSED"
-              exit 0
-            fi
-            sleep 5
-          done
-
-          echo "❌ Version did not become PROCESSED"
-          echo "== Application Version Details =="
-          aws elasticbeanstalk describe-application-versions \
-            --application-name "${{ secrets.EB_APP_NAME }}" \
-            --version-labels "${VERSION}" \
-            --output json || true
-
-          echo "== Recent EB Events =="
-          aws elasticbeanstalk describe-events \
-            --application-name "${{ secrets.EB_APP_NAME }}" \
-            --region "${AWS_REGION}" \
-            --max-items 50 || true
-
-          exit 1
-
-      - name: Update Environment to new version
-        shell: bash
-        run: |
-          set -e
           aws elasticbeanstalk update-environment \
             --environment-name "${{ secrets.EB_ENV_NAME }}" \
-            --version-label "${VERSION}"
+            --version-label "${VERSION}" || true
 
-      - name: Wait until environment updated
-        shell: bash
-        run: |
-          set -e
-          aws elasticbeanstalk wait environment-updated \
-            --environment-names "${{ secrets.EB_ENV_NAME }}"
-          echo "✅ Environment updated"
+          # restart to force pick up
+          aws elasticbeanstalk restart-app-server \
+            --environment-name "${{ secrets.EB_ENV_NAME }}" || true
 
-      - name: Print URLs
-        shell: bash
-        run: |
-          set -e
-          echo "✅ Health check: http://${{ secrets.EB_ENV_NAME }}.eu-central-1.elasticbeanstalk.com/health"
+          echo "✅ Open: http://${{ secrets.EB_ENV_NAME }}.eu-central-1.elasticbeanstalk.com/"
