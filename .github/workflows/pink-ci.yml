@@ -34,7 +34,6 @@ jobs:
           cd dist/project1/browser
           zip -r ../../../app.zip .
           
-
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
