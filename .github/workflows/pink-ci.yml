@@ -47,31 +47,45 @@ jobs:
           npm ci
           npm run build
 
-      - name: Detect build directory
-        id: builddir
+      # ✅ NEW: find the real folder that contains index.html (supports Angular SSR dist/<app>/browser)
+      - name: Locate index.html output folder
+        id: outdir
         shell: bash
         run: |
           set -e
 
+          echo "🔎 Searching for index.html in dist/build/out ..."
+          INDEX_PATH=""
+
           if [ -d "dist" ]; then
-            # Angular غالباً: dist/<appName>
-            INNER=$(find dist -maxdepth 1 -type d ! -path dist | head -n 1 || true)
-            if [ -n "$INNER" ]; then
-              echo "dir=$INNER" >> $GITHUB_OUTPUT
-            else
-              echo "dir=dist" >> $GITHUB_OUTPUT
-            fi
-          elif [ -d "build" ]; then
-            echo "dir=build" >> $GITHUB_OUTPUT
-          elif [ -d "out" ]; then
-            echo "dir=out" >> $GITHUB_OUTPUT
-          else
-            echo "❌ Can't detect build output folder (dist/build/out)."
+            INDEX_PATH=$(find dist -type f -name "index.html" | head -n 1 || true)
+          fi
+
+          if [ -z "$INDEX_PATH" ] && [ -d "build" ]; then
+            INDEX_PATH=$(find build -type f -name "index.html" | head -n 1 || true)
+          fi
+
+          if [ -z "$INDEX_PATH" ] && [ -d "out" ]; then
+            INDEX_PATH=$(find out -type f -name "index.html" | head -n 1 || true)
+          fi
+
+          if [ -z "$INDEX_PATH" ]; then
+            echo "❌ index.html not found in dist/build/out."
+            echo "=== DEBUG LIST (top level) ==="
             ls -la
+            echo "=== DEBUG dist (if exists) ==="
+            [ -d dist ] && find dist -maxdepth 3 -type f | head -n 80 || true
+            echo "=== DEBUG build (if exists) ==="
+            [ -d build ] && find build -maxdepth 3 -type f | head -n 80 || true
+            echo "=== DEBUG out (if exists) ==="
+            [ -d out ] && find out -maxdepth 3 -type f | head -n 80 || true
             exit 1
           fi
 
-          echo "✅ BUILD_DIR=$(cat $GITHUB_OUTPUT | cut -d= -f2)"
+          OUT_DIR=$(dirname "$INDEX_PATH")
+          echo "✅ Found index.html at: $INDEX_PATH"
+          echo "✅ Using output dir: $OUT_DIR"
+          echo "dir=$OUT_DIR" >> $GITHUB_OUTPUT
 
       - name: Prepare EB bundle (Express serves SPA)
         shell: bash
@@ -80,8 +94,11 @@ jobs:
           rm -rf deploy app.zip
           mkdir -p deploy/dist
 
-          # Copy built files into deploy/dist
-          cp -R "${{ steps.builddir.outputs.dir }}/." deploy/dist/
+          # Copy built files (folder that contains index.html) into deploy/dist
+          cp -R "${{ steps.outdir.outputs.dir }}/." deploy/dist/
+
+          # Ensure index.html exists where server expects it
+          test -f deploy/dist/index.html || (echo "❌ After copy, deploy/dist/index.html still missing" && ls -la deploy/dist && exit 1)
 
           # Node server to serve SPA + fallback to index.html
           cat > deploy/server.js <<'JS'
@@ -113,19 +130,18 @@ jobs:
             "version": "1.0.0",
             "main": "server.js",
             "engines": { "node": "20.x" },
-            "scripts": {
-              "start": "node server.js"
-            },
-            "dependencies": {
-              "express": "^4.19.2"
-            }
+            "scripts": { "start": "node server.js" },
+            "dependencies": { "express": "^4.19.2" }
           }
           JSON
+
+          # ✅ IMPORTANT: force EB to run our server
           echo "web: node server.js" > deploy/Procfile
-          test -f deploy/dist/index.html || (echo "❌ index.html not found" && exit 1)
-          unzip -l app.zip | head -n 60
 
           (cd deploy && zip -r ../app.zip .)
+
+          echo "✅ ZIP content preview:"
+          unzip -l app.zip | head -n 60
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
