@@ -27,7 +27,7 @@ jobs:
 
       - name: Zip build
         run: |
-         cd src/index.html
+         cd /src/index.html
          zip -r ../../../app.zip .
 
 
