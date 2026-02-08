@@ -29,7 +29,6 @@ jobs:
         run: |
           set -e
           [ -n "${{ secrets.AWS_ROLE_ARN }}" ] || (echo "❌ Missing secret: AWS_ROLE_ARN" && exit 1)
-          [ -n "${{ secrets.DEPLOY_BUCKET }}" ] || (echo "❌ Missing secret: DEPLOY_BUCKET" && exit 1)
           [ -n "${{ secrets.EB_APP_NAME }}" ] || (echo "❌ Missing secret: EB_APP_NAME" && exit 1)
           [ -n "${{ secrets.EB_ENV_NAME }}" ] || (echo "❌ Missing secret: EB_ENV_NAME" && exit 1)
           echo "✅ Secrets are present"
@@ -47,6 +46,7 @@ jobs:
           npm ci
           npm run build
 
+      # ✅ Find the actual folder that contains index.html (supports Angular SSR: dist/<app>/browser/index.html)
       - name: Locate index.html output folder
         id: outdir
         shell: bash
@@ -67,9 +67,9 @@ jobs:
           if [ -z "$INDEX_PATH" ]; then
             echo "❌ index.html not found in dist/build/out."
             ls -la
-            [ -d dist ] && find dist -maxdepth 4 -type f | head -n 120 || true
-            [ -d build ] && find build -maxdepth 4 -type f | head -n 120 || true
-            [ -d out ] && find out -maxdepth 4 -type f | head -n 120 || true
+            [ -d dist ] && find dist -maxdepth 5 -type f | head -n 150 || true
+            [ -d build ] && find build -maxdepth 5 -type f | head -n 150 || true
+            [ -d out ] && find out -maxdepth 5 -type f | head -n 150 || true
             exit 1
           fi
 
@@ -84,9 +84,11 @@ jobs:
           rm -rf deploy app.zip
           mkdir -p deploy/dist
 
+          # Copy built files (folder containing index.html) into deploy/dist
           cp -R "${{ steps.outdir.outputs.dir }}/." deploy/dist/
           test -f deploy/dist/index.html || (echo "❌ deploy/dist/index.html missing after copy" && ls -la deploy/dist && exit 1)
 
+          # Simple SPA server
           cat > deploy/server.js <<'JS'
           const express = require('express');
           const path = require('path');
@@ -97,14 +99,9 @@ jobs:
 
           app.get('/health', (req, res) => res.status(200).send('OK'));
           app.use(express.static(distDir));
+          app.get('*', (req, res) => res.sendFile(path.join(distDir, 'index.html')));
 
-          app.get('*', (req, res) => {
-            res.sendFile(path.join(distDir, 'index.html'));
-          });
-
-          app.listen(port, '0.0.0.0', () => {
-            console.log(`Frontend running on http://0.0.0.0:${port}`);
-          });
+          app.listen(port, '0.0.0.0', () => console.log(`Frontend on :${port}`));
           JS
 
           cat > deploy/package.json <<'JSON'
@@ -119,6 +116,7 @@ jobs:
           }
           JSON
 
+          # Force EB start command
           echo "web: node server.js" > deploy/Procfile
 
           (cd deploy && zip -r ../app.zip .)
@@ -133,38 +131,66 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
 
-      - name: Upload to S3
+      # ✅ Use EB default bucket (more reliable than custom deploy bucket)
+      - name: Compute EB default bucket
+        id: ebbucket
         shell: bash
         run: |
           set -e
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          EB_BUCKET="elasticbeanstalk-${AWS_REGION}-${ACCOUNT_ID}"
+          echo "bucket=${EB_BUCKET}" >> $GITHUB_OUTPUT
+          echo "✅ EB_BUCKET=${EB_BUCKET}"
+
+      - name: Ensure EB bucket exists (create if missing)
+        shell: bash
+        run: |
+          set -e
+          EB_BUCKET="${{ steps.ebbucket.outputs.bucket }}"
+
+          if aws s3api head-bucket --bucket "$EB_BUCKET" 2>/dev/null; then
+            echo "✅ EB bucket exists: $EB_BUCKET"
+          else
+            echo "⚠️ EB bucket missing, creating: $EB_BUCKET"
+            aws s3api create-bucket \
+              --bucket "$EB_BUCKET" \
+              --region "${AWS_REGION}" \
+              --create-bucket-configuration LocationConstraint="${AWS_REGION}"
+          fi
+
+      - name: Upload + Create Application Version
+        shell: bash
+        run: |
+          set -e
+
           VERSION="${GITHUB_SHA}"
           KEY="releases/${VERSION}.zip"
-          aws s3 cp app.zip "s3://${{ secrets.DEPLOY_BUCKET }}/${KEY}"
-          echo "VERSION=${VERSION}" >> $GITHUB_ENV
-          echo "KEY=${KEY}" >> $GITHUB_ENV
+          EB_BUCKET="${{ steps.ebbucket.outputs.bucket }}"
 
-      - name: Create Application Version
-        shell: bash
-        run: |
-          set -e
+          aws s3 cp app.zip "s3://${EB_BUCKET}/${KEY}"
+
           aws elasticbeanstalk create-application-version \
             --application-name "${{ secrets.EB_APP_NAME }}" \
             --version-label "${VERSION}" \
-            --source-bundle S3Bucket="${{ secrets.DEPLOY_BUCKET }}",S3Key="${KEY}"
+            --source-bundle S3Bucket="${EB_BUCKET}",S3Key="${KEY}"
 
-      # ✅ أهم خطوة: استنى لحد ما النسخة تبقى PROCESSED
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "EB_BUCKET=${EB_BUCKET}" >> $GITHUB_ENV
+          echo "KEY=${KEY}" >> $GITHUB_ENV
+
+      # ✅ Wait until PROCESSED (up to 15 minutes)
       - name: Wait for Application Version to be PROCESSED
         shell: bash
         run: |
           set -e
-          for i in $(seq 1 60); do
+          for i in $(seq 1 180); do
             STATUS=$(aws elasticbeanstalk describe-application-versions \
               --application-name "${{ secrets.EB_APP_NAME }}" \
               --version-labels "${VERSION}" \
               --query "ApplicationVersions[0].Status" \
               --output text)
 
-            echo "Version status: ${STATUS} (try ${i}/60)"
+            echo "Version status: ${STATUS} (try ${i}/180)"
             if [ "${STATUS}" = "PROCESSED" ]; then
               echo "✅ Version is PROCESSED"
               exit 0
@@ -172,7 +198,19 @@ jobs:
             sleep 5
           done
 
-          echo "❌ Version did not become PROCESSED in time"
+          echo "❌ Version did not become PROCESSED"
+          echo "== Application Version Details =="
+          aws elasticbeanstalk describe-application-versions \
+            --application-name "${{ secrets.EB_APP_NAME }}" \
+            --version-labels "${VERSION}" \
+            --output json || true
+
+          echo "== Recent EB Events =="
+          aws elasticbeanstalk describe-events \
+            --application-name "${{ secrets.EB_APP_NAME }}" \
+            --region "${AWS_REGION}" \
+            --max-items 50 || true
+
           exit 1
 
       - name: Update Environment to new version
@@ -190,3 +228,9 @@ jobs:
           aws elasticbeanstalk wait environment-updated \
             --environment-names "${{ secrets.EB_ENV_NAME }}"
           echo "✅ Environment updated"
+
+      - name: Print URLs
+        shell: bash
+        run: |
+          set -e
+          echo "✅ Health check: http://${{ secrets.EB_ENV_NAME }}.eu-central-1.elasticbeanstalk.com/health"
